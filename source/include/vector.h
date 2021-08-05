@@ -62,9 +62,15 @@ namespace sc {
         public:
             //=== [I] SPECIAL MEMBERS (6 OF THEM)
             explicit vector( size_type = 0 );
-            virtual ~vector( void );
+            virtual ~vector( void ) {};
             vector( const vector & );
-            vector( std::initializer_list<T> );
+            vector( std::initializer_list<T> values )
+                : m_end {values.size()},
+                  m_capacity {m_end},
+                  m_storage {new T[m_end]} {
+                std::copy(values.begin(), values.end(), m_storage.get());
+            }
+
             vector( vector && );
             template < typename InputItr >
             vector( InputItr, InputItr );
@@ -79,9 +85,13 @@ namespace sc {
             const_iterator cend( void ) const;
 
             // [III] Capacity
-            size_type size( void ) const;
+            size_type size( void ) const {
+                return m_end;
+            }
             size_type capacity( void ) const;
-            bool empty( void ) const;
+            bool empty( void ) const {
+                return m_end == 0;
+            }
 
             // [IV] Modifiers
             void clear( void );
@@ -120,8 +130,13 @@ namespace sc {
             const_reference front( void ) const;
             reference back( void );
             reference front( void );
-            const_reference operator[]( size_type ) const;
-            reference operator[]( size_type );
+            const_reference operator[]( size_type pos ) const {
+                return m_storage.get()[pos];
+            }
+            reference operator[]( size_type pos ) {
+                return m_storage.get()[pos];
+            }
+
             const_reference at( size_type ) const;
             reference at( size_type );
             pointer data( void );
@@ -157,8 +172,8 @@ namespace sc {
 
             size_type m_end;                //!< The list's current size (or index past-last valid element).
             size_type m_capacity;           //!< The list's storage capacity.
-            // std::unique_ptr<T[]> m_storage; //!< The list's data storage area.
-            T *m_storage;                   //!< The list's data storage area.
+            std::unique_ptr<T[]> m_storage; //!< The list's data storage area.
+            // T *m_storage;                   //!< The list's data storage area.
     };
 
     // [VI] Operators

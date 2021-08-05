@@ -12,10 +12,10 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 
 **Special members (21 credits)**
 - [ ] Regular constructor (3 credits)
-- [ ] Destructor (3 credits)
+- [X] Destructor (3 credits)
 - [ ] Copy constructor (3 credits)
 - [ ] Constructor from range (3 credits)
-- [ ] Constructor from initialize list (3 credits)
+- [X] Constructor from initialize list (3 credits)
 - [ ] Assignment operator (x 2) (6 credits)
 
 **Iterator methods (4 credits)**
@@ -25,8 +25,8 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 - [ ] `cend()` (1 credits)
 
 **Capacity methods (3 credits)**
-- [ ] `empty()` (1 credits);
-- [ ] `size()` (1 credits);
+- [X] `empty()` (1 credits);
+- [X] `size()` (1 credits);
 - [ ] `capacity()` (1 credits);
 
 **Modifiers methods (52 credits)**
@@ -42,7 +42,7 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 **Element access methods (10 credits)**
 - [ ] `front()` (1 credits)
 - [ ] `back()` (1 credits)
-- [ ] `operator[]()` \times 2 (4 credits)
+- [X] `operator[]()` \times 2 (4 credits)
 - [ ] `at()` \times 2 (4 credits)
 
 **Operators (2 credits)**

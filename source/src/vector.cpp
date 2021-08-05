@@ -1,5 +1,5 @@
 #include "vector.h"
 
-int main(int argc, char **argv) {
-    return EXIT_SUCCESS;
-}
+namespace sc {
+    template <typename T>
+    vector<T>::vector( std::initializer_list<T> values ) }
