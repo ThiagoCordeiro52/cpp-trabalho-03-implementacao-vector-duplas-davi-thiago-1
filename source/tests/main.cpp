@@ -16,15 +16,15 @@ int main( void )
 {
     TestManager tm{ "Testing a vector of integer"};
 
-    // {
-    //     BEGIN_TEST(tm,"DefaultConstructor", "vector<int> vec;");
+    {
+        BEGIN_TEST(tm,"DefaultConstructor", "vector<int> vec;");
 
-    //     which_lib::vector<int> vec;
+        which_lib::vector<int> vec;
 
-    //     EXPECT_EQ( vec.size(), 0);
-    //     EXPECT_EQ( vec.capacity(), 0);
-    //     EXPECT_TRUE( vec.empty() );
-    // }
+        EXPECT_EQ( vec.size(), 0);
+        EXPECT_EQ( vec.capacity(), 0);
+        EXPECT_TRUE( vec.empty() );
+    }
     // {
     //     BEGIN_TEST(tm,"ConstructorSize", "vec(size)");
 
@@ -35,17 +35,17 @@ int main( void )
     //     EXPECT_FALSE( vec.empty() );
     // }
 
-    {
-        BEGIN_TEST(tm,"ListContructor", "vector<int> vec{1, 2, 3}");
+    // {
+    //     BEGIN_TEST(tm,"ListContructor", "vector<int> vec{1, 2, 3}");
 
-        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
 
-        EXPECT_EQ( vec.size(), 5 );
-        EXPECT_FALSE( vec.empty() );
+    //     EXPECT_EQ( vec.size(), 5 );
+    //     EXPECT_FALSE( vec.empty() );
 
-        for( auto i{0u} ; i < vec.size() ; ++i )
-            EXPECT_EQ( (int)i+1, vec[i] );
-    }   
+    //     for( auto i{0u} ; i < vec.size() ; ++i )
+    //         EXPECT_EQ( (int)i+1, vec[i] );
+    // }   
 
     // {
     //     BEGIN_TEST(tm,"RangeConstructor", "vector<int> vec{ first, last }");
@@ -70,26 +70,26 @@ int main( void )
     //         EXPECT_EQ( vec[i+offset], vec3[i] );
     // }
 
-    // {
-    //     BEGIN_TEST(tm, "CopyConstructor","vector<int> vec_clone{ vec }");
-    //     // Range = the entire vector.
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2{ vec };
+    {
+        BEGIN_TEST(tm, "CopyConstructor","vector<int> vec_clone{ vec }");
+        // Range = the entire vector.
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2{ vec };
 
-    //     EXPECT_EQ( vec2.size(), 5 );
-    //     EXPECT_EQ( vec2.capacity(), 5 );
-    //     EXPECT_FALSE( vec2.empty() );
+        EXPECT_EQ( vec2.size(), 5 );
+        EXPECT_EQ( vec2.capacity(), 5 );
+        EXPECT_FALSE( vec2.empty() );
 
-    //     // CHeck whether the copy worked.
-    //     for( auto i{0u} ; i < vec2.size() ; ++i )
-    //         EXPECT_EQ( (int)i+1, vec2[i] );
+        // CHeck whether the copy worked.
+        for( auto i{0u} ; i < vec2.size() ; ++i )
+            EXPECT_EQ( (int)i+1, vec2[i] );
 
-    //     // Change the original vector and check whether that also changes the second vec.
-    //     // Of course, this should not happen.
-    //     vec[2] = 10;
-    //     for( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( (int)i+1, vec2[i] );
-    // }
+        // Change the original vector and check whether that also changes the second vec.
+        // Of course, this should not happen.
+        vec[2] = 10;
+        for( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( (int)i+1, vec2[i] );
+    }
 
     // // {
     // // BEGIN_TEST(tm, "MoveConstructor", "move the elements from another");

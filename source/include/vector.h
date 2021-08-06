@@ -56,14 +56,24 @@ namespace sc {
             using reference = value_type&;   //!< Reference to a value stored in the container.
             using const_reference = const value_type&; //!< Const reference to a value stored in the container.
 
-            using iterator = MyForwardIterator< value_type >; //!< The iterator, instantiated from a template class.
-            using const_iterator = MyForwardIterator< const value_type >; //!< The const_iterator, instantiated from a template class.
+            // using iterator = MyForwardIterator< value_type >; //!< The iterator, instantiated from a template class.
+            // using const_iterator = MyForwardIterator< const value_type >; //!< The const_iterator, instantiated from a template class.
 
         public:
             //=== [I] SPECIAL MEMBERS (6 OF THEM)
-            explicit vector( size_type = 0 );
+            explicit vector( size_type value = 0 )
+                : m_end {value},
+                  m_capacity {value},
+                  m_storage {new T[value]} {
+
+            };
             virtual ~vector( void ) {};
-            vector( const vector & );
+            vector( const vector & vetor) 
+                : m_end {vetor.size()},
+                  m_capacity {vetor.m_capacity},
+                  m_storage {new T[m_end]} {
+                std::copy(vetor.cbegin(), vetor.cend(), m_storage.get());
+            };
             vector( std::initializer_list<T> values )
                 : m_end {values.size()},
                   m_capacity {m_end},
@@ -88,7 +98,9 @@ namespace sc {
             size_type size( void ) const {
                 return m_end;
             }
-            size_type capacity( void ) const;
+            size_type capacity( void ) const {
+                return m_capacity;
+            };
             bool empty( void ) const {
                 return m_end == 0;
             }
