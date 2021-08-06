@@ -25,15 +25,15 @@ int main( void )
         EXPECT_EQ( vec.capacity(), 0);
         EXPECT_TRUE( vec.empty() );
     }
-    // {
-    //     BEGIN_TEST(tm,"ConstructorSize", "vec(size)");
+    {
+        BEGIN_TEST(tm,"ConstructorSize", "vec(size)");
 
-    //     which_lib::vector<int> vec(10);
+        which_lib::vector<int> vec(10);
 
-    //     EXPECT_EQ( vec.size(), 10);
-    //     EXPECT_EQ( vec.capacity(), 10);
-    //     EXPECT_FALSE( vec.empty() );
-    // }
+        EXPECT_EQ( vec.size(), 10);
+        EXPECT_EQ( vec.capacity(), 10);
+        EXPECT_FALSE( vec.empty() );
+    }
 
     {
         BEGIN_TEST(tm,"ListContructor", "vector<int> vec{1, 2, 3}");
@@ -114,7 +114,7 @@ int main( void )
 
         vec2 = vec;
         EXPECT_EQ( vec2.size(), 5 );
-        // EXPECT_EQ( vec2.capacity(), 5 );
+        EXPECT_EQ( vec2.capacity(), 5 );
         EXPECT_FALSE( vec2.empty() );
 
         // CHeck whether the copy worked.
@@ -142,19 +142,19 @@ int main( void )
     //     // }
 
 
-    // {
-    //     BEGIN_TEST(tm, "ListInitializerAssign", "vector<int> vec = { 1, 2, 3 }");
-    //     // Range = the entire vector.
-    //     which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "ListInitializerAssign", "vector<int> vec = { 1, 2, 3 }");
+        // Range = the entire vector.
+        which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
 
-    //     EXPECT_EQ( vec.size(), 5 );
-    //     EXPECT_EQ( vec.capacity(), 5 );
-    //     EXPECT_FALSE( vec.empty() );
+        EXPECT_EQ( vec.size(), 5 );
+        EXPECT_EQ( vec.capacity(), 5 );
+        EXPECT_FALSE( vec.empty() );
 
-    //     // CHeck whether the copy worked.
-    //     for( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( (int)i+1, vec[i] );
-    // }
+        // CHeck whether the copy worked.
+        for( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( (int)i+1, vec[i] );
+    }
 
     // {
     //     BEGIN_TEST(tm, "Size", "vec.size()");
@@ -339,26 +339,26 @@ int main( void )
 
 
 
-    // {
-    //     BEGIN_TEST(tm, "OperatorBracketsRHS","Operator Brackets RHS: x = vec[i]");
-    //     const which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     const which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "OperatorBracketsRHS","Operator Brackets RHS: x = vec[i]");
+        const which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        const which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
 
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( vec[i], vec2[i]);
-    // }
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( vec[i], vec2[i]);
+    }
 
 
-    // {
-    //     BEGIN_TEST(tm, "OperatorBracketsLHS","Operator Brackets LHS: vec[i] = x");
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2 { 10, 20, 30, 40, 50 };
+    {
+        BEGIN_TEST(tm, "OperatorBracketsLHS","Operator Brackets LHS: vec[i] = x");
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2 { 10, 20, 30, 40, 50 };
 
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         vec[i] = vec2[i];
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( vec[i], vec2[i]);
-    // }
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            vec[i] = vec2[i];
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( vec[i], vec2[i]);
+    }
 
 
     // {
@@ -416,27 +416,27 @@ int main( void )
 
     // }
 
-    // {
-    //     BEGIN_TEST(tm, "Capacity","capacity()");
+    {
+        BEGIN_TEST(tm, "Capacity","capacity()");
 
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     EXPECT_EQ( vec.capacity(), 5u );
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        EXPECT_EQ( vec.capacity(), 5u );
 
-    //     which_lib::vector<int> vec2{ vec };
-    //     EXPECT_EQ( vec2.capacity(), 5u );
+        which_lib::vector<int> vec2{ vec };
+        EXPECT_EQ( vec2.capacity(), 5u );
 
-    //     which_lib::vector<int> vec3;
-    //     EXPECT_EQ( vec3.capacity(), 0u );
+        which_lib::vector<int> vec3;
+        EXPECT_EQ( vec3.capacity(), 0u );
 
-    //     vec3 = vec2;
-    //     EXPECT_EQ( vec2.capacity(), 5u );
+        vec3 = vec2;
+        EXPECT_EQ( vec2.capacity(), 5u );
 
-    //     which_lib::vector<int> vec4 = { 1, 2, 3 };
-    //     EXPECT_EQ( vec4.capacity(), 3u );
+        which_lib::vector<int> vec4 = { 1, 2, 3 };
+        EXPECT_EQ( vec4.capacity(), 3u );
 
-    //     which_lib::vector<int> vec5( 100 );
-    //     EXPECT_EQ( vec5.capacity(), 100u );
-    // }
+        which_lib::vector<int> vec5( 100 );
+        EXPECT_EQ( vec5.capacity(), 100u );
+    }
 
 
     // {
@@ -645,12 +645,12 @@ int main( void )
     // }
 
     tm.summary();
-    // std::cout << "\n\n";
+    std::cout << "\n\n";
 
 
     // // Second batch of tests, focused on the iterator interface
 
-    // TestManager tm2{ "Iterator testing"};
+    TestManager tm2{ "Iterator testing"};
 
     // {
     //     BEGIN_TEST(tm2, "begin","vec.begin()");
@@ -778,39 +778,39 @@ int main( void )
     //     }
     // }
 
-    // {
-    //     BEGIN_TEST(tm2, "operator--()","Predecrement, --it");
+    {
+        BEGIN_TEST(tm2, "operator--()","Predecrement, --it");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.end();
-    //     size_t i{vec.capacity()};
-    //     while( it != vec.begin() )
-    //     {
-    //         // std::cout << it << " == " << &vec[i] << "\n";
-    //         // same address
-    //         EXPECT_EQ( *it , vec[i--] );
-    //         --it;
-    //     }
-    //     EXPECT_EQ( *it , vec[i] );
-    //     // std::cout << it << " == " << &vec[i] << "\n";
-    // }
-    // 
-    // {
-    //     BEGIN_TEST(tm2, "operator--(int)","Postdecrement, it--");
+        auto it = vec.end();
+        size_t i{vec.capacity()};
+        while( it != vec.begin() )
+        {
+            // std::cout << it << " == " << &vec[i] << "\n";
+            // same address
+            EXPECT_EQ( *it , vec[i--] );
+            --it;
+        }
+        EXPECT_EQ( *it , vec[i] );
+        // std::cout << it << " == " << &vec[i] << "\n";
+    }
+    
+    {
+        BEGIN_TEST(tm2, "operator--(int)","Postdecrement, it--");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.end();
-    //     size_t i{vec.capacity()};
-    //     while( it != vec.begin() )
-    //     {
-    //         // same address
-    //         EXPECT_EQ( *it , vec[i--] );
-    //         it--;
-    //     }
-    //     EXPECT_EQ( *it , vec[i] );
-    // }
+        auto it = vec.end();
+        size_t i{vec.capacity()};
+        while( it != vec.begin() )
+        {
+            // same address
+            EXPECT_EQ( *it , vec[i--] );
+            it--;
+        }
+        EXPECT_EQ( *it , vec[i] );
+    }
 
     // {
     //     BEGIN_TEST(tm2, "operator*()"," x = *it1");
