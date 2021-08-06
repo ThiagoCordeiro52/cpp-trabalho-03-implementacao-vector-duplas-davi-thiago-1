@@ -35,17 +35,17 @@ int main( void )
     //     EXPECT_FALSE( vec.empty() );
     // }
 
-    // {
-    //     BEGIN_TEST(tm,"ListContructor", "vector<int> vec{1, 2, 3}");
+    {
+        BEGIN_TEST(tm,"ListContructor", "vector<int> vec{1, 2, 3}");
 
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
 
-    //     EXPECT_EQ( vec.size(), 5 );
-    //     EXPECT_FALSE( vec.empty() );
+        EXPECT_EQ( vec.size(), 5 );
+        EXPECT_FALSE( vec.empty() );
 
-    //     for( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( (int)i+1, vec[i] );
-    // }   
+        for( size_t i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( (int)i+1, vec[i] );
+    }   
 
     // {
     //     BEGIN_TEST(tm,"RangeConstructor", "vector<int> vec{ first, last }");
@@ -106,21 +106,21 @@ int main( void )
     // // }
 
 
-    // {
-    //     BEGIN_TEST(tm, "AssignOperator", "vec1 = vec2");
-    //     // Range = the entire vector.
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2;
+    {
+        BEGIN_TEST(tm, "AssignOperator", "vec1 = vec2");
+        // Range = the entire vector.
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2;
 
-    //     vec2 = vec;
-    //     EXPECT_EQ( vec2.size(), 5 );
-    //     EXPECT_EQ( vec2.capacity(), 5 );
-    //     EXPECT_FALSE( vec2.empty() );
+        vec2 = vec;
+        EXPECT_EQ( vec2.size(), 5 );
+        // EXPECT_EQ( vec2.capacity(), 5 );
+        EXPECT_FALSE( vec2.empty() );
 
-    //     // CHeck whether the copy worked.
-    //     for( auto i{0u} ; i < vec2.size() ; ++i )
-    //         EXPECT_EQ( (int) i+1, vec2[i] );
-    // }
+        // CHeck whether the copy worked.
+        for( size_t i{0u} ; i < vec2.size() ; ++i )
+            EXPECT_EQ( (int) i+1, vec2[i] );
+    }
 
 
     //     // {

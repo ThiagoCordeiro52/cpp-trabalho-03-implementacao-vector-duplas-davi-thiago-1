@@ -58,6 +58,8 @@ namespace sc {
 
             // using iterator = MyForwardIterator< value_type >; //!< The iterator, instantiated from a template class.
             // using const_iterator = MyForwardIterator< const value_type >; //!< The const_iterator, instantiated from a template class.
+            using iterator = pointer; //!< The iterator, instantiated from a template class.
+            using const_iterator = const pointer; //!< The const_iterator, instantiated from a template class.
 
         public:
             //=== [I] SPECIAL MEMBERS (6 OF THEM)
@@ -85,14 +87,31 @@ namespace sc {
             template < typename InputItr >
             vector( InputItr, InputItr );
 
-            vector & operator=( const vector & );
+            vector & operator=( const vector & vec ) {
+                if ( this != &vec ) {
+                    if ( m_capacity != vec.m_capacity ) {
+                        m_storage.reset();
+                        m_storage = std::unique_ptr<T[]>( new T[vec.m_capacity] );
+                    }
+                    std::copy(vec.cbegin(), vec.cend(), m_storage.get());
+
+                    m_end = vec.m_end;
+                    m_capacity = vec.m_capacity;
+                }
+
+                return *this;
+            }
             vector & operator=( vector && );
 
             //=== [II] ITERATORS
             iterator begin( void );
             iterator end( void );
-            const_iterator cbegin( void ) const;
-            const_iterator cend( void ) const;
+            const_iterator cbegin( void ) const {
+                return m_storage.get();
+            }
+            const_iterator cend( void ) const {
+                return m_storage.get() + m_end;
+            }
 
             // [III] Capacity
             size_type size( void ) const {
@@ -112,16 +131,17 @@ namespace sc {
             void pop_back( void );
             void pop_front( void );
 
-            iterator insert( iterator pos_ , const_reference value_ );
-            iterator insert( const_iterator pos_ , const_reference value_ );
+            // descomentar depois
+            // iterator insert( iterator pos_ , const_reference value_ );
+            // iterator insert( const_iterator pos_ , const_reference value_ );
 
-            template < typename InputItr >
-            iterator insert( iterator pos_ , InputItr first_, InputItr last_ );
-            template < typename InputItr >
-            iterator insert( const_iterator pos_ , InputItr first_, InputItr last_ );
+            // template < typename InputItr >
+            // iterator insert( iterator pos_ , InputItr first_, InputItr last_ );
+            // template < typename InputItr >
+            // iterator insert( const_iterator pos_ , InputItr first_, InputItr last_ );
 
-            iterator insert( iterator pos_, const std::initializer_list< value_type >& ilist_ );
-            iterator insert( const_iterator pos_, const std::initializer_list< value_type >& ilist_ );
+            // iterator insert( iterator pos_, const std::initializer_list< value_type >& ilist_ );
+            // iterator insert( const_iterator pos_, const std::initializer_list< value_type >& ilist_ );
 
             void reserve( size_type );
             void shrink_to_fit( void );
@@ -131,11 +151,11 @@ namespace sc {
             template < typename InputItr >
             void assign( InputItr first, InputItr last );
 
-            iterator erase( iterator first, iterator last );
-            iterator erase( const_iterator first, const_iterator last );
+            // iterator erase( iterator first, iterator last );
+            // iterator erase( const_iterator first, const_iterator last );
 
-            iterator erase( const_iterator pos );
-            iterator erase( iterator pos );
+            // iterator erase( const_iterator pos );
+            // iterator erase( iterator pos );
 
             // [V] Element access
             const_reference back( void ) const;
