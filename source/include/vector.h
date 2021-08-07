@@ -46,8 +46,9 @@ namespace sc {
                 return *this;
             }
             self_type operator--( int ) {
+                auto old {*this};
                 m_ptr--;
-                return *this;
+                return old;
             }
             friend self_type operator+( difference_type, self_type );
             friend self_type operator+( self_type, difference_type );
