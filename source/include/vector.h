@@ -34,31 +34,50 @@ namespace sc {
                 m_ptr = other.m_ptr;
             }
             MyForwardIterator( const self_type& other ) : m_ptr{ other.m_ptr } {}
-            reference operator*( ) const;
+             reference operator*( ) const {
+                return *m_ptr;
+            }
             self_type& operator++( ) {
                 m_ptr++;
                 return *this;
             }; // ++it;
             self_type operator++( int ) {
+                auto old {*this};
                 m_ptr++;
+                return old;
             }; // it++;
-
 
             self_type& operator--( ) {
                 --m_ptr;
                 return *this;
             }
             self_type operator--( int ) {
+                auto old {*this};
                 m_ptr--;
-                return *this;
+                return old;
             }
             
-            friend self_type operator+( difference_type, self_type );
-            friend self_type operator+( self_type, difference_type );
-            friend self_type operator-( difference_type, self_type );
-            friend self_type operator-( self_type, difference_type );
-            bool operator==( const self_type& ) const;
-            bool operator!=( const self_type& ) const;
+            friend self_type operator+( difference_type difference, self_type vec) {
+                return self_type{difference + vec.m_ptr};
+            };
+            friend self_type operator+( self_type vec, difference_type difference ) {
+                return self_type{vec.m_ptr + difference };
+            };
+            friend difference_type operator-( self_type vec1, self_type vec2 ) {
+                return vec1.m_ptr - vec2.m_ptr;
+            }
+            friend self_type operator-( difference_type difference, self_type vec ) {
+                return self_type{difference - vec.m_ptr};
+            }
+            friend self_type operator-( self_type vec, difference_type difference ) {
+                return self_type{vec.m_ptr - difference};
+            }
+            bool operator==( const self_type& other) const {
+                return other.m_ptr == m_ptr;
+            };
+            bool operator!=( const self_type& other) const {
+                return other.m_ptr != m_ptr;
+            };
 
         private:
             pointer m_ptr; //!< The raw pointer.
