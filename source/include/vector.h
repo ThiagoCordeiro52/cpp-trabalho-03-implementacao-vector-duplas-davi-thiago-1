@@ -36,7 +36,9 @@ namespace sc {
                 m_ptr = other.m_ptr;
             }
             MyForwardIterator( const self_type& other ) : m_ptr( other.m_ptr ) {}
-            reference operator*( ) const;
+            reference operator*( ) const {
+                return *m_ptr;
+            }
             self_type& operator++( ); // ++it;
             self_type operator++( int ); // it++;
             self_type& operator--( ) {
@@ -49,8 +51,15 @@ namespace sc {
             }
             friend self_type operator+( difference_type, self_type );
             friend self_type operator+( self_type, difference_type );
-            friend self_type operator-( difference_type, self_type );
-            friend self_type operator-( self_type, difference_type );
+            friend difference_type operator-( self_type vec1, self_type vec2 ) {
+                return vec1.m_ptr - vec2.m_ptr;
+            }
+            friend self_type operator-( difference_type difference, self_type vec ) {
+                return self_type{difference - vec.m_ptr};
+            }
+            friend self_type operator-( self_type vec, difference_type difference ) {
+                return self_type{vec.m_ptr - difference};
+            }
             bool operator==( const self_type& ) const;
             bool operator!=( const self_type& ) const;
 
