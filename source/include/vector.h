@@ -82,8 +82,9 @@ namespace sc {
                   m_storage {new T[m_end]} {
                 std::copy(values.begin(), values.end(), m_storage.get());
             }
-
-            vector( vector && );
+            
+            // Não é para ser feito (verificado com o professor).
+            // vector( vector && );
             template < typename InputItr >
             vector( InputItr, InputItr );
 
