@@ -16,13 +16,13 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 - [ ] Copy constructor (3 credits)
 - [ ] Constructor from range (3 credits)
 - [X] Constructor from initialize list (3 credits)
-- [ ] Assignment operator (x 2) (6 credits)
+- [X] Assignment operator (x 2) (6 credits)
 
 **Iterator methods (4 credits)**
 - [ ] `begin()` (1 credits)
 - [ ] `end()` (1 credits)
-- [ ] `cbegin()` (1 credits)
-- [ ] `cend()` (1 credits)
+- [X] `cbegin()` (1 credits)
+- [X] `cend()` (1 credits)
 
 **Capacity methods (3 credits)**
 - [X] `empty()` (1 credits);
@@ -53,12 +53,12 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 
 **Special members (3 credits)**
 - [ ] Regular constructor (1 credits)
-- [ ] Copy constructor (1 credits)
-- [ ] Assignment operator (1 credits)
+- [X] Copy constructor (1 credits)
+- [X] Assignment operator (1 credits)
 
 **Navigation methods (12 credits)**
 - [ ] increment operator `++it` and `it++` (2 credits)
-- [ ] decrement operator `--it` and `it--` (2 credits)
+- [X] decrement operator `--it` and `it--` (2 credits)
 - [ ] forward jump operator `it + n` or `n + it`   (2 credits)
 - [ ] backward jump operator `it - n` or `n - it`   (2 credits)
 - [ ] difference between iterators `it1-it2` (1 credits)
