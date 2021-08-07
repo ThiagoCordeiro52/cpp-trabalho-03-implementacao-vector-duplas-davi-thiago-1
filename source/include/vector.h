@@ -29,16 +29,21 @@ namespace sc {
 
             // TODO: create all methods here.
             //
-
-
-            MyForwardIterator( pointer ptr = nullptr );
+            MyForwardIterator( pointer ptr = nullptr ) : m_ptr{ptr}  {};
             self_type& operator=( const self_type& other ) {
                 m_ptr = other.m_ptr;
             }
-            MyForwardIterator( const self_type& other ) : m_ptr( other.m_ptr ) {}
+            MyForwardIterator( const self_type& other ) : m_ptr{ other.m_ptr } {}
             reference operator*( ) const;
-            self_type& operator++( ); // ++it;
-            self_type operator++( int ); // it++;
+            self_type& operator++( ) {
+                m_ptr++;
+                return *this;
+            }; // ++it;
+            self_type operator++( int ) {
+                m_ptr++;
+            }; // it++;
+
+
             self_type& operator--( ) {
                 --m_ptr;
                 return *this;
@@ -47,6 +52,7 @@ namespace sc {
                 m_ptr--;
                 return *this;
             }
+            
             friend self_type operator+( difference_type, self_type );
             friend self_type operator+( self_type, difference_type );
             friend self_type operator-( difference_type, self_type );
@@ -136,8 +142,12 @@ namespace sc {
             }
 
             //=== [II] ITERATORS
-            iterator begin( void );
-            iterator end( void );
+            iterator begin( void ) {
+                return iterator{m_storage.get()};
+            };
+            iterator end( void ) {
+                return iterator{m_storage.get() + m_end};
+            };
             const_iterator cbegin( void ) const {
                 return const_iterator{m_storage.get()};
             }
