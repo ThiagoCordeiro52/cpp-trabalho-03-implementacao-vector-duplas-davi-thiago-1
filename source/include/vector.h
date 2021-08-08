@@ -269,7 +269,13 @@ namespace sc {
                 return m_storage[pos];
             }
 
-            const_reference at( size_type ) const;
+            const_reference at( size_type value ) const {
+                if (m_end <= value) {
+                    return m_storage.get()[pos];
+                } else {
+                    throw
+                }
+            };
             reference at( size_type );
             pointer data( void );
             const_reference data( void ) const;
