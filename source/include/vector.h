@@ -27,14 +27,13 @@ namespace sc {
             typedef const T& const_reference;           //!< Reference to the value type.
             typedef std::bidirectional_iterator_tag iterator_category; //!< Iterator category.
 
-            // TODO: create all methods here.
-            //
             MyForwardIterator( pointer ptr = nullptr ) : m_ptr{ptr}  {};
             self_type& operator=( const self_type& other ) {
                 m_ptr = other.m_ptr;
+                return *this;
             }
             MyForwardIterator( const self_type& other ) : m_ptr{ other.m_ptr } {}
-             reference operator*( ) const {
+            reference operator*( ) const {
                 return *m_ptr;
             }
             self_type& operator++( ) {
@@ -66,9 +65,9 @@ namespace sc {
             friend difference_type operator-( self_type vec1, self_type vec2 ) {
                 return vec1.m_ptr - vec2.m_ptr;
             }
-            friend self_type operator-( difference_type difference, self_type vec ) {
-                return self_type{difference - vec.m_ptr};
-            }
+            // friend self_type operator-( difference_type difference, self_type vec ) {
+            //     return self_type{difference - vec.m_ptr};
+            // }
             friend self_type operator-( self_type vec, difference_type difference ) {
                 return self_type{vec.m_ptr - difference};
             }
@@ -189,11 +188,52 @@ namespace sc {
             void clear( void );
             void push_front( const_reference );
             void push_back( const_reference );
-            void pop_back( void );
+            void pop_back( void ) {
+                if (m_end == 0)
+                    throw std::runtime_error("pop_back(): cannot use this method on an empty vector");
+                m_end--;
+            }
             void pop_front( void );
 
-            iterator insert( iterator pos_ , const_reference value_ );
-            iterator insert( const_iterator pos_ , const_reference value_ );
+            // does not work if pos_ > m_end
+            iterator insert( iterator pos , const_reference value ) {
+                auto pos_ {pos - m_storage.get()};
+                auto new_end = m_end + 1;
+                if (new_end > m_capacity) {
+                    do m_capacity *= 2; while (new_end > m_capacity);
+
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    std::copy(begin(), begin() + pos_, new_storage.get());
+                    std::copy(begin() + pos_, end(), new_storage.get() + pos_ + 1);
+                    m_storage = std::move(new_storage);
+                } else {
+                    for (auto i {m_end}; i >= pos_; i--)
+                        m_storage[i] = m_storage[i - 1];
+                }
+                m_end = new_end;
+                m_storage[pos_] = value;
+
+                return m_storage.get() + pos_;
+            }
+            iterator insert( const_iterator pos , const_reference value ) {
+                auto pos_ {pos - m_storage.get()};
+                auto new_end = m_end + 1;
+                if (new_end > m_capacity) {
+                    do m_capacity *= 2; while (new_end > m_capacity);
+
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    std::copy(cbegin(), cbegin() + pos_, new_storage.get());
+                    std::copy(cbegin() + pos_, cend(), new_storage.get() + pos_ + 1);
+                    m_storage = std::move(new_storage);
+                } else {
+                    for (auto i {m_end}; i >= pos_; i--)
+                        m_storage[i] = m_storage[i - 1];
+                }
+                m_end = new_end;
+                m_storage[pos_] = value;
+
+                return m_storage.get() + pos_;
+            }
 
             template < typename InputItr >
             iterator insert( iterator pos_ , InputItr first_, InputItr last_ );
@@ -223,10 +263,10 @@ namespace sc {
             reference back( void );
             reference front( void );
             const_reference operator[]( size_type pos ) const {
-                return m_storage.get()[pos];
+                return m_storage[pos];
             }
             reference operator[]( size_type pos ) {
-                return m_storage.get()[pos];
+                return m_storage[pos];
             }
 
             const_reference at( size_type ) const;
@@ -270,7 +310,15 @@ namespace sc {
 
     // [VI] Operators
     template <typename T>
-    bool operator==( const vector<T> &, const vector<T>& );
+    bool operator==( const vector<T>& vec1, const vector<T>& vec2 ) {
+        if (vec1.size() != vec2.size())
+            return false;
+        for (auto i {0u}; i < vec1.size(); i++) {
+            if (vec1[i] != vec2[i])
+                return false;
+        }
+        return true;
+    }
     template <typename T>
     bool operator!=( const vector<T> &, const vector<T>& );
 

@@ -156,12 +156,12 @@ int main( void )
             EXPECT_EQ( (int)i+1, vec[i] );
     }
 
-    // {
-    //     BEGIN_TEST(tm, "Size", "vec.size()");
+    {
+        BEGIN_TEST(tm, "Size", "vec.size()");
 
-    //     which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
-    //     EXPECT_EQ( vec.size(), 5 );
-    //     EXPECT_EQ( vec.capacity(), 5 );
+        which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
+        EXPECT_EQ( vec.size(), 5 );
+        EXPECT_EQ( vec.capacity(), 5 );
     //     vec.clear();
     //     EXPECT_EQ( vec.size(), 0 );
     //     EXPECT_EQ( vec.capacity(), 5 );
@@ -187,7 +187,7 @@ int main( void )
     //     vec3.pop_back();
     //     vec3.pop_back();
     //     EXPECT_EQ( vec3.size(), 0 );
-    // }
+    }
 
 
     // {
@@ -488,22 +488,21 @@ int main( void )
     //     EXPECT_NE( vec,vec4 );
     // }
 
+    {
+        BEGIN_TEST(tm, "InsertSingleValueAtPosition","vec.insert(pos, value)");
+        // #1 From an empty vector.
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    // {
-    //     BEGIN_TEST(tm, "InsertSingleValueAtPosition","vec.insert(pos, value)");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
-
-    //     // Insert at front
-    //     vec.insert( vec.begin(), 0 );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 4, 5, 6 } ) );
-    //     // Insert in the middle
-    //     vec.insert( vec.begin()+3, 3 );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 3, 4, 5, 6 } ) );
-    //     // Insert at the end
-    //     vec.insert( vec.end(), 7 );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7 } ) );
-    // }
+        // Insert at front
+        vec.insert( vec.begin(), 0 );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 4, 5, 6 } ) );
+        // Insert in the middle
+        vec.insert( vec.begin()+3, 3 );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 3, 4, 5, 6 } ) );
+        // Insert at the end
+        vec.insert( vec.end(), 7 );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7 } ) );
+    }
 
 
     // {
@@ -652,30 +651,30 @@ int main( void )
 
     TestManager tm2{ "Iterator testing"};
 
-    // {
-    //     BEGIN_TEST(tm2, "begin","vec.begin()");
+    {
+        BEGIN_TEST(tm2, "begin","vec.begin()");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.begin();
-    //     EXPECT_EQ( *it , vec[0] );
+        auto it = vec.begin();
+        EXPECT_EQ( *it , vec[0] );
 
-    //     auto vec2 = vec;
-    //     vec2[0] = 100; // Changing the copy
-    //     it = vec2.begin();
-    //     EXPECT_NE( *it , vec[0] );
-    //     EXPECT_EQ( *it , vec2[0] );
+        auto vec2 = vec;
+        vec2[0] = 100; // Changing the copy
+        it = vec2.begin();
+        EXPECT_NE( *it , vec[0] );
+        EXPECT_EQ( *it , vec2[0] );
 
-    //     auto vec3 { vec };
-    //     vec3[0] = 200; // Changing the copy
-    //     it = vec3.begin();
-    //     EXPECT_NE( *it , vec[0] );
-    //     EXPECT_EQ( *it , vec3[0] );
+        auto vec3 { vec };
+        vec3[0] = 200; // Changing the copy
+        it = vec3.begin();
+        EXPECT_NE( *it , vec[0] );
+        EXPECT_EQ( *it , vec3[0] );
 
-    //     which_lib::vector<int> vec4 =  { 1, 2, 4, 5, 6 };
-    //     it = vec4.begin();
-    //     EXPECT_EQ( *it , vec4[0] );
-    // }
+        which_lib::vector<int> vec4 =  { 1, 2, 4, 5, 6 };
+        it = vec4.begin();
+        EXPECT_EQ( *it , vec4[0] );
+    }
 
     {
         BEGIN_TEST(tm2, "cbegin","vec.cbegin()");
@@ -702,28 +701,28 @@ int main( void )
         EXPECT_EQ( *cit , vec4[0] );
     }
 
-    // {
-    //     BEGIN_TEST(tm2, "end","vec.end()");
+    {
+        BEGIN_TEST(tm2, "end","vec.end()");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.end();
-    //     EXPECT_EQ( *it , vec[vec.capacity()] );
+        auto it = vec.end();
+        EXPECT_EQ( *it , vec[vec.capacity()] );
 
-    //     auto vec2 = vec;
-    //     it = vec2.end();
-    //     EXPECT_NE( it , vec.end() );
-    //     EXPECT_EQ( it , vec2.end() );
+        auto vec2 = vec;
+        it = vec2.end();
+        EXPECT_NE( it , vec.end() );
+        EXPECT_EQ( it , vec2.end() );
 
-    //     auto vec3 { vec };
-    //     it = vec3.end();
-    //     EXPECT_NE( it , vec.end() );
-    //     EXPECT_EQ( it , vec3.end() );
+        auto vec3 { vec };
+        it = vec3.end();
+        EXPECT_NE( it , vec.end() );
+        EXPECT_EQ( it , vec3.end() );
 
-    //     which_lib::vector<int> vec4 =  { 1, 2, 4, 5, 6 };
-    //     it = vec4.end();
-    //     EXPECT_EQ( it , vec4.end() );
-    // }
+        which_lib::vector<int> vec4 =  { 1, 2, 4, 5, 6 };
+        it = vec4.end();
+        EXPECT_EQ( it , vec4.end() );
+    }
 
     {
         BEGIN_TEST(tm2, "cend","vec.cend()");
@@ -748,35 +747,35 @@ int main( void )
         EXPECT_EQ( it , vec4.cend() );
     }
 
-    // {
-    //     BEGIN_TEST(tm2, "operator++()","Preincrement, ++it");
+    {
+        BEGIN_TEST(tm2, "operator++()","Preincrement, ++it");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.begin();
-    //     size_t i{0};
-    //     while( it != vec.end() )
-    //     {
-    //         // same address
-    //         EXPECT_EQ( *it , vec[i++] );
-    //         ++it;
-    //     }
-    // }
-    // 
-    // {
-    //     BEGIN_TEST(tm2, "operator++(int)","Postincrement, it++");
+        auto it = vec.begin();
+        size_t i{0};
+        while( it != vec.end() )
+        {
+            // same address
+            EXPECT_EQ( *it , vec[i++] );
+            ++it;
+        }
+    }
+    
+    {
+        BEGIN_TEST(tm2, "operator++(int)","Postincrement, it++");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.begin();
-    //     size_t i{0};
-    //     while( it != vec.end() )
-    //     {
-    //         // same address
-    //         EXPECT_EQ( *it , vec[i++] );
-    //         it++;
-    //     }
-    // }
+        auto it = vec.begin();
+        size_t i{0};
+        while( it != vec.end() )
+        {
+            // same address
+            EXPECT_EQ( *it , vec[i++] );
+            it++;
+        }
+    }
 
     {
         BEGIN_TEST(tm2, "operator--()","Predecrement, --it");
@@ -840,34 +839,34 @@ int main( void )
         }
     }
 
-    // {
-    //     BEGIN_TEST(tm2, "operator+(int, iterator)","it = 2 + it");
+    {
+        BEGIN_TEST(tm2, "operator+(int, iterator)","it = 2 + it");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.begin();
-    //     for( size_t i{0} ; i < vec.size() ; ++i )
-    //     {
-    //         // same address
-    //         EXPECT_EQ( *(i+it) , vec[i] );
-    //         // std::cout << (i+it) << " == " << &vec[i] << "\n";
-    //     }
-    // }
+        auto it = vec.begin();
+        for( size_t i{0} ; i < vec.size() ; ++i )
+        {
+            // same address
+            EXPECT_EQ( *(i+it) , vec[i] );
+            // std::cout << (i+it) << " == " << &vec[i] << "\n";
+        }
+    }
 
-    // {
-    //     BEGIN_TEST(tm2, "operator+(iterator, int)","it = it + 2");
+    {
+        BEGIN_TEST(tm2, "operator+(iterator, int)","it = it + 2");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it = vec.begin();
-    //     for( size_t i{0} ; i < vec.size() ; ++i )
-    //     {
-    //         // same address
-    //         EXPECT_EQ( *(it+i) , vec[i] );
-    //         // std::cout << (i+it) << " == " << &vec[i] << "\n";
-    //     }
-    // }
-    // 
+        auto it = vec.begin();
+        for( size_t i{0} ; i < vec.size() ; ++i )
+        {
+            // same address
+            EXPECT_EQ( *(it+i) , vec[i] );
+            // std::cout << (i+it) << " == " << &vec[i] << "\n";
+        }
+    }
+    
 
     {
         BEGIN_TEST(tm2, "operator-(iterator, int)","it = it - 2");
@@ -882,33 +881,33 @@ int main( void )
         }
     }
 
-    // {
-    //     BEGIN_TEST(tm2, "operator==()","it1 == it2");
+    {
+        BEGIN_TEST(tm2, "operator==()","it1 == it2");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it1 = vec.begin();
-    //     auto it2 = vec.begin();
-    //     while( it1 != vec.end() )
-    //         EXPECT_EQ( it1++ , it2++ );
-    // }
+        auto it1 = vec.begin();
+        auto it2 = vec.begin();
+        while( it1 != vec.end() )
+            EXPECT_EQ( it1++ , it2++ );
+    }
 
-    // {
-    //     BEGIN_TEST(tm2, "operator!=()","it1 != it2");
+    {
+        BEGIN_TEST(tm2, "operator!=()","it1 != it2");
 
-    //     which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
+        which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
-    //     auto it1 = vec.begin();
-    //     auto it2 = vec.end();
-    //     while( it1 != it2 )
-    //     {
-    //         EXPECT_TRUE( it1 != it2 );
-    //         ++it1;
-    //     }
-    //     EXPECT_FALSE( it1 != it2 );
-    // }
+        auto it1 = vec.begin();
+        auto it2 = vec.end();
+        while( it1 != it2 )
+        {
+            EXPECT_TRUE( it1 != it2 );
+            ++it1;
+        }
+        EXPECT_FALSE( it1 != it2 );
+    }
 
-    // tm2.summary();
+    tm2.summary();
 
     return 0;
 }
