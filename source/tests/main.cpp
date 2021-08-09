@@ -494,7 +494,7 @@ int main( void )
         which_lib::vector<int> vec { 1, 2, 4, 5, 6 };
 
         // Insert at front
-        vec.insert( vec.begin(), 0 );
+        vec.insert( vec.cbegin(), 0 );
         EXPECT_EQ( vec , ( which_lib::vector<int>{ 0, 1, 2, 4, 5, 6 } ) );
         // Insert in the middle
         vec.insert( vec.begin()+3, 3 );
@@ -505,50 +505,50 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "InsertRange","vec.insert( pos, first, last)");
-    //     // Aux arrays.
-    //     which_lib::vector<int> vec1 { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> source { 6, 7, 8, 9, 10 };
+    {
+        BEGIN_TEST(tm, "InsertRange","vec.insert( pos, first, last)");
+        // Aux arrays.
+        which_lib::vector<int> vec1 { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> source { 6, 7, 8, 9, 10 };
 
-    //     // Inset at the begining.
-    //     vec1.insert( vec1.begin(), source.begin(), source.end() );
-    //     EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 } ) );
+        // Inset at the begining.
+        vec1.insert( vec1.cbegin(), source.begin(), source.end() );
+        EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 } ) );
 
-    //     // In the middle
-    //     vec1 = vec2;
-    //     vec1.insert( std::next( vec1.begin(), 2 ), source.begin(), source.end() );
-    //     EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 6, 7, 8, 9, 10, 3, 4, 5 } ) );
+        // In the middle
+        vec1 = vec2;
+        vec1.insert( std::next( vec1.begin(), 2 ), source.begin(), source.end() );
+        EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 6, 7, 8, 9, 10, 3, 4, 5 } ) );
 
-    //     // At the end
-    //     vec1 = vec2;
-    //     vec1.insert( vec1.end(), source.begin(), source.end() );
-    //     EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } ) );
-    // }
+        // At the end
+        vec1 = vec2;
+        vec1.insert( vec1.end(), source.begin(), source.end() );
+        EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } ) );
+    }
 
 
-    // {
-    //     BEGIN_TEST(tm, "InsertInitializarList","vec.insert(pos, {1, 2, 3, 4 })");
-    //     // Aux arrays.
-    //     which_lib::vector<int> vec1 { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> source { 6, 7, 8, 9, 10 };
+    {
+        BEGIN_TEST(tm, "InsertInitializarList","vec.insert(pos, {1, 2, 3, 4 })");
+        // Aux arrays.
+        which_lib::vector<int> vec1 { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> source { 6, 7, 8, 9, 10 };
 
-    //     // Inset at the begining.
-    //     vec1.insert( vec1.begin(), { 6, 7, 8, 9, 10 } );
-    //     EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 } ) );
+        // Inset at the begining.
+        vec1.insert( vec1.cbegin(), { 6, 7, 8, 9, 10 } );
+        EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 } ) );
 
-    //     // In the middle
-    //     vec1 = vec2;
-    //     vec1.insert( std::next( vec1.begin(), 2 ), { 6, 7, 8, 9, 10 } );
-    //     EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 6, 7, 8, 9, 10, 3, 4, 5 } ) );
+        // In the middle
+        vec1 = vec2;
+        vec1.insert( std::next( vec1.begin(), 2 ), { 6, 7, 8, 9, 10 } );
+        EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 6, 7, 8, 9, 10, 3, 4, 5 } ) );
 
-    //     // At the end
-    //     vec1 = vec2;
-    //     vec1.insert( vec1.end(), { 6, 7, 8, 9, 10 } );
-    //     EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } ) );
-    // }
+        // At the end
+        vec1 = vec2;
+        vec1.insert( vec1.end(), { 6, 7, 8, 9, 10 } );
+        EXPECT_EQ( vec1 , ( which_lib::vector<int>{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } ) );
+    }
 
 
     // {

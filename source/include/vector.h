@@ -157,6 +157,8 @@ namespace sc {
                 }
                 m_end = ilist.size();
                 std::copy(ilist.begin(), ilist.end(), m_storage.get());
+
+                return *this;
             }
 
             //=== [II] ITERATORS
@@ -197,51 +199,51 @@ namespace sc {
 
             // does not work if pos_ > m_end
             iterator insert( iterator pos , const_reference value ) {
-                auto pos_ {pos - m_storage.get()};
-                auto new_end = m_end + 1;
-                if (new_end > m_capacity) {
-                    do m_capacity *= 2; while (new_end > m_capacity);
-
-                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
-                    std::copy(begin(), begin() + pos_, new_storage.get());
-                    std::copy(begin() + pos_, end(), new_storage.get() + pos_ + 1);
-                    m_storage = std::move(new_storage);
-                } else {
-                    for (auto i {m_end}; i >= pos_; i--)
-                        m_storage[i] = m_storage[i - 1];
-                }
-                m_end = new_end;
+                auto pos_ {(size_type)std::distance(begin(), pos)};
+                create_space( pos_, 1 );
                 m_storage[pos_] = value;
 
-                return m_storage.get() + pos_;
+                return begin() + pos_;
             }
-            iterator insert( const_iterator pos , const_reference value ) {
-                auto pos_ {pos - m_storage.get()};
-                auto new_end = m_end + 1;
-                if (new_end > m_capacity) {
-                    do m_capacity *= 2; while (new_end > m_capacity);
-
-                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
-                    std::copy(cbegin(), cbegin() + pos_, new_storage.get());
-                    std::copy(cbegin() + pos_, cend(), new_storage.get() + pos_ + 1);
-                    m_storage = std::move(new_storage);
-                } else {
-                    for (auto i {m_end}; i >= pos_; i--)
-                        m_storage[i] = m_storage[i - 1];
-                }
-                m_end = new_end;
+            iterator insert( const_iterator pos, const_reference value ) {
+                auto pos_ {(size_type)std::distance(cbegin(), pos)};
+                create_space( pos_, 1 );
                 m_storage[pos_] = value;
 
-                return m_storage.get() + pos_;
+                return begin() + pos_;
             }
 
             template < typename InputItr >
-            iterator insert( iterator pos_ , InputItr first_, InputItr last_ );
-            template < typename InputItr >
-            iterator insert( const_iterator pos_ , InputItr first_, InputItr last_ );
+            iterator insert( iterator pos, InputItr first, InputItr last ) {
+                auto pos_ {(size_type)std::distance(begin(), pos)};
+                create_space( pos_, std::distance(first, last) );
+                std::copy(first, last, begin() + pos_);
 
-            iterator insert( iterator pos_, const std::initializer_list< value_type >& ilist_ );
-            iterator insert( const_iterator pos_, const std::initializer_list< value_type >& ilist_ );
+                return begin() + pos_;
+            }
+            template < typename InputItr >
+            iterator insert( const_iterator pos, InputItr first, InputItr last ) {
+                auto pos_ {(size_type)std::distance(cbegin(), pos)};
+                create_space( pos_, std::distance(first, last) );
+                std::copy(first, last, begin() + pos_);
+
+                return begin() + pos_;
+            }
+
+            iterator insert( iterator pos, const std::initializer_list< value_type >& ilist ) {
+                auto pos_ {(size_type)std::distance(begin(), pos)};
+                create_space( pos_, ilist.size() );
+                std::copy(ilist.begin(), ilist.end(), begin() + pos_);
+
+                return begin() + pos_;
+            }
+            iterator insert( const_iterator pos, const std::initializer_list< value_type >& ilist ) {
+                auto pos_ {(size_type)std::distance(cbegin(), pos)};
+                create_space( pos_, ilist.size() );
+                std::copy(ilist.begin(), ilist.end(), begin() + pos_);
+
+                return begin() + pos_;
+            }
 
             void reserve( size_type );
             void shrink_to_fit( void );
@@ -269,13 +271,13 @@ namespace sc {
                 return m_storage[pos];
             }
 
-            const_reference at( size_type value ) const {
-                if (m_end <= value) {
-                    return m_storage.get()[pos];
-                } else {
-                    throw
-                }
-            };
+            // const_reference at( size_type value ) const {
+            //     if (m_end <= value) {
+            //         return m_storage.get()[pos];
+            //     } else {
+            //         throw
+            //     }
+            // };
             reference at( size_type );
             pointer data( void );
             const_reference data( void ) const;
@@ -307,6 +309,21 @@ namespace sc {
 
         private:
             bool full( void ) const;
+            void create_space( size_type pos, size_type size ) {
+                auto new_end {m_end + size};
+                if (new_end > m_capacity) {
+                    do m_capacity *= 2; while (new_end > m_capacity);
+
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    std::copy(begin(), begin() + pos, new_storage.get());
+                    std::copy(begin() + pos, end(), new_storage.get() + pos + size);
+                    m_storage = std::move(new_storage);
+                } else {
+                    for (auto i {m_end - 1}; i >= pos; i--)
+                        m_storage[i + size] = m_storage[i];
+                }
+                m_end = new_end;
+            }
 
             size_type m_end;                //!< The list's current size (or index past-last valid element).
             size_type m_capacity;           //!< The list's storage capacity.

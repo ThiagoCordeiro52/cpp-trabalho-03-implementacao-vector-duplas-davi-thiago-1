@@ -2,6 +2,10 @@
 
 Preencha os dados abaixo para identificar a autoria do trabalho.
 
+- Nome: *José Davi Viana Francelino*
+- Email: *jose.davi@imd.ufrn.br*
+- Turma: *DIM0120-T01*
+
 - Nome: *Thiago Oliveira Cordeiro*
 - Email: *thiagoty52@gmail.com*
 - Turma: *DIM0120-T01*
@@ -32,8 +36,8 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 **Modifiers methods (52 credits)**
 - [ ] `clear()` (1 credits)
 - [ ] `push_back()` (3 credits)
-- [ ] `pop_back()` (3 credits)
-- [ ] `insert()` \times 6 (18 credits)
+- [X] `pop_back()` (3 credits)
+- [X] `insert()` \times 6 (18 credits)
 - [ ] `reserve()` (3 credits)
 - [ ] `shrink_to_fit()` (3 credits)
 - [ ] `assign()` \times 3 (9 credits)
@@ -60,9 +64,9 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 - [ ] increment operator `++it` and `it++` (2 credits)
 - [X] decrement operator `--it` and `it--` (2 credits)
 - [ ] forward jump operator `it + n` or `n + it`   (2 credits)
-- [ ] backward jump operator `it - n` or `n - it`   (2 credits)
-- [ ] difference between iterators `it1-it2` (1 credits)
-- [ ] dereference operator `*it` (1 credits)
+- [X] backward jump operator `it - n` or `n - it`   (2 credits)
+- [X] difference between iterators `it1-it2` (1 credits)
+- [X] dereference operator `*it` (1 credits)
 - [ ] equality/difference operators `it1==it2` and `it1!=it2` (2 credits)
 
 --------
