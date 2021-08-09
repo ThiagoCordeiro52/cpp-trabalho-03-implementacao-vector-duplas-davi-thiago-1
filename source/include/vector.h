@@ -116,25 +116,38 @@ namespace sc {
                   m_storage {new T[value]} {
 
             };
+            /**
+             * @brief Called when the vector is destruct, does nothing because the unique_pointer deletes the data automaticly
+             */
             virtual ~vector( void ) {};
-            vector( const vector & vetor) 
-                : m_end {vetor.size()},
-                  m_capacity {vetor.m_capacity},
+            vector( const vector & vec) 
+                : m_end {vec.m_end},
+                  m_capacity {vec.m_capacity},
                   m_storage {new T[m_end]} {
-                std::copy(vetor.cbegin(), vetor.cend(), m_storage.get());
+                std::copy(vec.cbegin(), vec.cend(), m_storage.get());
             };
-            vector( std::initializer_list<T> values )
-                : m_end {values.size()},
+            /**
+             * @brief Contructs a vector with the values of a initializer list
+             *
+             * @param ilist the initializer list to get the values from
+             */
+            vector( std::initializer_list<T> ilist )
+                : m_end {ilist.size()},
                   m_capacity {m_end},
                   m_storage {new T[m_end]} {
-                std::copy(values.begin(), values.end(), m_storage.get());
+                std::copy(ilist.begin(), ilist.end(), m_storage.get());
             }
             
-            // Não é para ser feito (verificado com o professor).
-            // vector( vector && );
             template < typename InputItr >
             vector( InputItr, InputItr );
 
+            /**
+             * @brief Copies the values of vec to this vector
+             *
+             * @param vec the vector to copy the values from
+             *
+             * @return this vector with the new values
+             */
             vector & operator=( const vector & vec ) {
                 if ( this != &vec ) {
                     if ( m_capacity != vec.m_capacity ) {
@@ -149,6 +162,13 @@ namespace sc {
 
                 return *this;
             }
+            /**
+             * @brief Copies the values of ilist to this vector
+             *
+             * @param ilist the initializer list to copy the values from
+             *
+             * @return this vector with the new values
+             */
             vector & operator=( std::initializer_list<T> ilist ) {
                 if (m_capacity < ilist.size()) {
                     m_storage.reset();
@@ -168,20 +188,32 @@ namespace sc {
             iterator end( void ) {
                 return iterator{m_storage.get() + m_end};
             };
+            /**
+             * @return a const iterator to the begin of the vector
+             */
             const_iterator cbegin( void ) const {
                 return const_iterator{m_storage.get()};
             }
+            /**
+             * @return a const iterator to the position after the end of the vector
+             */
             const_iterator cend( void ) const {
                 return const_iterator{m_storage.get() + m_end};
             }
 
             // [III] Capacity
+            /**
+             * @return the size of the vector
+             */
             size_type size( void ) const {
                 return m_end;
             }
             size_type capacity( void ) const {
                 return m_capacity;
             };
+            /**
+             * @return whether the vector is empty or not 
+             */
             bool empty( void ) const {
                 return m_end == 0;
             }
@@ -190,6 +222,9 @@ namespace sc {
             void clear( void );
             void push_front( const_reference );
             void push_back( const_reference );
+            /**
+             * @brief removes the last element of the vector
+             */
             void pop_back( void ) {
                 if (m_end == 0)
                     throw std::runtime_error("pop_back(): cannot use this method on an empty vector");
@@ -198,6 +233,14 @@ namespace sc {
             void pop_front( void );
 
             // does not work if pos_ > m_end
+            /**
+             * @brief Inserts value at pos
+             *
+             * @param pos the position to insert
+             * @param value the value to be inserted
+             *
+             * @return the new position of value
+             */
             iterator insert( iterator pos , const_reference value ) {
                 auto pos_ {(size_type)std::distance(begin(), pos)};
                 create_space( pos_, 1 );
@@ -205,6 +248,14 @@ namespace sc {
 
                 return begin() + pos_;
             }
+            /**
+             * @brief Inserts value at pos
+             *
+             * @param pos the position to insert
+             * @param value the value to be inserted
+             *
+             * @return the new position of value
+             */
             iterator insert( const_iterator pos, const_reference value ) {
                 auto pos_ {(size_type)std::distance(cbegin(), pos)};
                 create_space( pos_, 1 );
@@ -213,6 +264,16 @@ namespace sc {
                 return begin() + pos_;
             }
 
+            /**
+             * @brief Insert the values of the range [first, last) at pos
+             *
+             * @tparam InputItr an iterator type
+             * @param pos the position to insert the values
+             * @param first an iterator to the begining of the range
+             * @param last an iterator to the position after the end of the range
+             *
+             * @return the new position of the first value inserted
+             */
             template < typename InputItr >
             iterator insert( iterator pos, InputItr first, InputItr last ) {
                 auto pos_ {(size_type)std::distance(begin(), pos)};
@@ -221,6 +282,16 @@ namespace sc {
 
                 return begin() + pos_;
             }
+            /**
+             * @brief Insert the values of the range [first, last) at pos
+             *
+             * @tparam InputItr an iterator type
+             * @param pos the position to insert the values
+             * @param first an iterator to the begining of the range
+             * @param last an iterator to the position after the end of the range
+             *
+             * @return the new position of the first value inserted
+             */
             template < typename InputItr >
             iterator insert( const_iterator pos, InputItr first, InputItr last ) {
                 auto pos_ {(size_type)std::distance(cbegin(), pos)};
@@ -230,6 +301,14 @@ namespace sc {
                 return begin() + pos_;
             }
 
+            /**
+             * @brief Insert the values of ilist at pos
+             *
+             * @param pos the position to insert the values
+             * @param ilist the initializer list to get the values from
+             *
+             * @return the new position of the first value inserted
+             */
             iterator insert( iterator pos, const std::initializer_list< value_type >& ilist ) {
                 auto pos_ {(size_type)std::distance(begin(), pos)};
                 create_space( pos_, ilist.size() );
@@ -237,6 +316,14 @@ namespace sc {
 
                 return begin() + pos_;
             }
+            /**
+             * @brief Insert the values of ilist at pos
+             *
+             * @param pos the position to insert the values
+             * @param ilist the initializer list to get the values from
+             *
+             * @return the new position of the first value inserted
+             */
             iterator insert( const_iterator pos, const std::initializer_list< value_type >& ilist ) {
                 auto pos_ {(size_type)std::distance(cbegin(), pos)};
                 create_space( pos_, ilist.size() );
@@ -246,7 +333,17 @@ namespace sc {
             }
 
             void reserve( size_type );
-            void shrink_to_fit( void );
+            /**
+             * @brief Adjusts the capacity of the array to be equal to the size
+             */
+            void shrink_to_fit( void ) {
+                if (m_end != m_capacity) {
+                    std::unique_ptr<T[]> new_storage {new T[m_end]};
+                    std::copy(begin(), end(), new_storage.get());
+                    m_storage = std::move(new_storage);
+                    m_capacity = m_end;
+                }
+            }
 
             void assign( size_type count_, const_reference value_ );
             void assign( const std::initializer_list<T>& ilist );
@@ -260,13 +357,41 @@ namespace sc {
             iterator erase( iterator pos );
 
             // [V] Element access
-            const_reference back( void ) const;
+            /**
+             * @return a const reference to the last value of the vector
+             */
+            const_reference back( void ) const {
+                if (m_end == 0)
+                    throw std::runtime_error("back(): cannot use this method on an empty vector");
+                return m_storage[m_end - 1];
+            }
             const_reference front( void ) const;
-            reference back( void );
+            /**
+             * @return a reference to the last value of the vector
+             */
+            reference back( void ) {
+                if (m_end == 0)
+                    throw std::runtime_error("back(): cannot use this method on an empty vector");
+                return m_storage[m_end - 1];
+            }
             reference front( void );
+            /**
+             * @brief Gets the value at pos without bound check
+             *
+             * @param pos the position to get the value from
+             *
+             * @return a const reference to the value at pos
+             */
             const_reference operator[]( size_type pos ) const {
                 return m_storage[pos];
             }
+            /**
+             * @brief Gets the value at pos without bound check
+             *
+             * @param pos the position to get the value from
+             *
+             * @return a reference to the value at pos
+             */
             reference operator[]( size_type pos ) {
                 return m_storage[pos];
             }
@@ -309,16 +434,26 @@ namespace sc {
 
         private:
             bool full( void ) const;
+            /**
+             * @brief Creates an empty space of size size at position pos (this is an auxiliary method to insert)
+             *
+             * @see insert()
+             * @param pos the postion to create an empty space
+             * @param size the size of the empty space
+             */
             void create_space( size_type pos, size_type size ) {
                 auto new_end {m_end + size};
                 if (new_end > m_capacity) {
                     do m_capacity *= 2; while (new_end > m_capacity);
 
                     std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    // Copies the first part of the vector to the begining of the new storage
                     std::copy(begin(), begin() + pos, new_storage.get());
+                    // Copies the last part of the vector to the end of the new storage
                     std::copy(begin() + pos, end(), new_storage.get() + pos + size);
                     m_storage = std::move(new_storage);
                 } else {
+                    // Copies the last part of the vector to the end
                     for (auto i {m_end - 1}; i >= pos; i--)
                         m_storage[i + size] = m_storage[i];
                 }
@@ -332,6 +467,15 @@ namespace sc {
     };
 
     // [VI] Operators
+    /**
+     * @brief check if two vector are equal, i.e., have the same size and the same values
+     *
+     * @tparam T any type
+     * @param vec1 the first vector to check the equality
+     * @param vec2 the seconf vector to check the equality
+     *
+     * @return whether vec1 is equal to vec2
+     */
     template <typename T>
     bool operator==( const vector<T>& vec1, const vector<T>& vec2 ) {
         if (vec1.size() != vec2.size())

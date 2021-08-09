@@ -91,21 +91,6 @@ int main( void )
             EXPECT_EQ( (int)i+1, vec2[i] );
     }
 
-    // // {
-    // // BEGIN_TEST(tm, "MoveConstructor", "move the elements from another");
-    // // // Range = the entire vector.
-    // // which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    // // which_lib::vector<int> vec2( std::move( vec ) );
-
-    // // EXPECT_EQ( vec2.size(), 5 );
-    // // // EXPECT_FALSE( vec2.empty() );
-
-    // // // CHeck whether the copy worked.
-    // // for( auto i{0u} ; i < vec2.size() ; ++i )
-    // // EXPECT_EQ( (int)i+1, vec2[i] );
-    // // }
-
-
     {
         BEGIN_TEST(tm, "AssignOperator", "vec1 = vec2");
         // Range = the entire vector.
@@ -121,26 +106,6 @@ int main( void )
         for( size_t i{0u} ; i < vec2.size() ; ++i )
             EXPECT_EQ( (int) i+1, vec2[i] );
     }
-
-
-    //     // {
-    //     // BEGIN_TEST(tm, "MoveAssignOperator", "Move Assign Operator");
-    //     // // Range = the entire vector.
-    //     // which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    //     // which_lib::vector<int> vec2;
-
-    //     // vec2 = std::move( vec );
-    //     // EXPECT_EQ( vec2.size(), 5 );
-    //     // EXPECT_FALSE( vec2.empty() );
-    //     // EXPECT_EQ( vec.size(), 0 );
-    //     // EXPECT_EQ( vec.capacity(), 0 );
-    //     // EXPECT_TRUE( vec.empty() );
-
-    //     // // CHeck whether the copy worked.
-    //     // for( auto i{0u} ; i < vec2.size() ; ++i )
-    //     // EXPECT_EQ( (int)i+1, vec2[i] );
-    //     // }
-
 
     {
         BEGIN_TEST(tm, "ListInitializerAssign", "vector<int> vec = { 1, 2, 3 }");
@@ -237,18 +202,18 @@ int main( void )
     //         EXPECT_EQ( (int)i+1, vec[i] );
     // }
 
-    // {
-    //     BEGIN_TEST(tm, "PopBack", "vec.pop_back()");
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "PopBack", "vec.pop_back()");
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
 
-    //     while( not vec.empty() )
-    //     {
-    //         vec.pop_back();
-    //         // Check whether we have the same list except for the last.
-    //         for( auto i{0u} ; i < vec.size() ; ++i )
-    //             EXPECT_EQ( (int)i+1, vec[i] );
-    //     }
-    // }
+        while( not vec.empty() )
+        {
+            vec.pop_back();
+            // Check whether we have the same list except for the last.
+            for( auto i{0u} ; i < vec.size() ; ++i )
+                EXPECT_EQ( (int)i+1, vec[i] );
+        }
+    }
 
 
     // {
@@ -279,33 +244,33 @@ int main( void )
     // }
 
 
-    // {
-    //     BEGIN_TEST(tm, "Back","reference back() version: vec.back() = x");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "Back","reference back() version: vec.back() = x");
+        // #1 From an empty vector.
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
 
-    //     auto i{5};
-    //     while( not vec.empty() )
-    //     {
-    //         auto current_size = vec.size();
-    //         EXPECT_EQ( vec.back(), i-- );
-    //         vec.back() = 100;
-    //         EXPECT_EQ( current_size, vec.size() );
-    //         EXPECT_EQ( vec[vec.size()-1], 100 );
-    //         vec.pop_back();
-    //     }
-    // }
+        auto i{5};
+        while( not vec.empty() )
+        {
+            auto current_size = vec.size();
+            EXPECT_EQ( vec.back(), i-- );
+            vec.back() = 100;
+            EXPECT_EQ( current_size, vec.size() );
+            EXPECT_EQ( vec[vec.size()-1], 100 );
+            vec.pop_back();
+        }
+    }
 
 
-    // {
-    //     BEGIN_TEST(tm, "BackConst","const back() version: x = vec.back()");
-    //     // #1 From an empty vector.
-    //     const which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    //     EXPECT_EQ( vec.back(), 5 );
+    {
+        BEGIN_TEST(tm, "BackConst","const back() version: x = vec.back()");
+        // #1 From an empty vector.
+        const which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+        EXPECT_EQ( vec.back(), 5 );
 
-    //     const which_lib::vector<char> vec2{ 'a', 'e', 'i', 'o', 'u' };
-    //     EXPECT_EQ( vec2.back(), 'u' );
-    // }
+        const which_lib::vector<char> vec2{ 'a', 'e', 'i', 'o', 'u' };
+        EXPECT_EQ( vec2.back(), 'u' );
+    }
 
 
     // {
@@ -439,40 +404,40 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "ShrinkToFit","shrink_to_fit()");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "ShrinkToFit","shrink_to_fit()");
+        // #1 From an empty vector.
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
 
-    //     // Original cap is 5
-    //     EXPECT_EQ( vec.capacity(), 5u );
-    //     // Remove 2 elements.
-    //     vec.pop_back();
-    //     vec.pop_back();
-    //     // Capacity should be still the same.
-    //     EXPECT_EQ( vec.capacity(), 5u );
-    //     vec.shrink_to_fit();
-    //     // Now, capacity should be smaller.
-    //     EXPECT_EQ( vec.capacity(), 3 );
-    //     // Did we keep the original values?
-    //     auto i{0};
-    //     for( const auto & e : vec )
-    //         EXPECT_EQ( e , ++i );
-    // }
+        // Original cap is 5
+        EXPECT_EQ( vec.capacity(), 5u );
+        // Remove 2 elements.
+        vec.pop_back();
+        vec.pop_back();
+        // Capacity should be still the same.
+        EXPECT_EQ( vec.capacity(), 5u );
+        vec.shrink_to_fit();
+        // Now, capacity should be smaller.
+        EXPECT_EQ( vec.capacity(), 3 );
+        // Did we keep the original values?
+        auto i{0};
+        for( const auto & e : vec )
+            EXPECT_EQ( e , ++i );
+    }
 
 
-    // {
-    //     BEGIN_TEST(tm, "OperatorEqual","vec1 == vec2");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec3 { 1, 2, 8, 4, 5 };
-    //     which_lib::vector<int> vec4 { 8, 4, 5 };
+    {
+        BEGIN_TEST(tm, "OperatorEqual","vec1 == vec2");
+        // #1 From an empty vector.
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec3 { 1, 2, 8, 4, 5 };
+        which_lib::vector<int> vec4 { 8, 4, 5 };
 
-    //     EXPECT_EQ( vec , vec2 );
-    //     EXPECT_TRUE( not ( vec == vec3 ) );
-    //     EXPECT_TRUE( not ( vec == vec4 ) );
-    // }
+        EXPECT_EQ( vec , vec2 );
+        EXPECT_TRUE( not ( vec == vec3 ) );
+        EXPECT_TRUE( not ( vec == vec4 ) );
+    }
 
 
     // {
