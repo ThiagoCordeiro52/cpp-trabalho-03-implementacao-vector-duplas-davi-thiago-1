@@ -397,10 +397,22 @@ namespace sc {
                 }
             }
 
-            void assign( size_type count_, const_reference value_ );
+            void assign( size_type count_, const_reference value_ ) {
+
+            };
             void assign( const std::initializer_list<T>& ilist );
             template < typename InputItr >
-            void assign( InputItr first, InputItr last );
+            void assign( InputItr first, InputItr last ) {
+                auto counter = std::distance( first, last );
+                m_capacity*=2;
+                std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                // Copies values of the vector to the begining of the new storage
+                std::copy(begin(), end(), new_storage.get());
+                m_end += counter;
+                while(first != last) {
+                    this->push_back(*first);
+                }
+            };
 
             iterator erase( iterator first, iterator last ) {
                 int counter = std::distance( first, last );

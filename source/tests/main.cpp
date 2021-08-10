@@ -516,32 +516,32 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "AssignCountValue2","vec.assign( count, value)");
-    //     // Initial vector.
-    //     which_lib::vector<char> vec { 'a', 'b', 'c', 'd', 'e' };
+    {
+        BEGIN_TEST(tm, "AssignCountValue2","vec.assign( count, value)");
+        // Initial vector.
+        which_lib::vector<char> vec { 'a', 'b', 'c', 'd', 'e' };
 
-    //     // assigning count values to which_lib::vector, with count < size().
-    //     which_lib::vector<char> vec2 { 'x', 'x', 'x' };
-    //     vec.assign( 3, 'x' );
-    //     EXPECT_EQ( vec , vec2 );
-    //     EXPECT_EQ( vec.size() , 3 );
-    //     EXPECT_EQ( vec.capacity() , 5 );
+        // assigning count values to which_lib::vector, with count < size().
+        which_lib::vector<char> vec2 { 'x', 'x', 'x' };
+        vec.assign( 3, 'x' );
+        EXPECT_EQ( vec , vec2 );
+        EXPECT_EQ( vec.size() , 3 );
+        EXPECT_EQ( vec.capacity() , 5 );
 
-    //     // assigning count values to which_lib::vector, with count , size().
-    //     vec = { 'a', 'b', 'c', 'd', 'e' };
-    //     vec.assign( 5, 'y' );
-    //     EXPECT_EQ( vec , ( which_lib::vector<char>{ 'y','y','y','y','y' } ) );
-    //     EXPECT_EQ( vec.size() , 5 );
-    //     EXPECT_EQ( vec.capacity() , 5 );
+        // assigning count values to which_lib::vector, with count , size().
+        vec = { 'a', 'b', 'c', 'd', 'e' };
+        vec.assign( 5, 'y' );
+        EXPECT_EQ( vec , ( which_lib::vector<char>{ 'y','y','y','y','y' } ) );
+        EXPECT_EQ( vec.size() , 5 );
+        EXPECT_EQ( vec.capacity() , 5 );
 
-    //     // assigning count values to which_lib::vector, with count > size().
-    //     vec = { 'a', 'b', 'c', 'd', 'e' };
-    //     vec.assign( 8, 'z' );
-    //     EXPECT_EQ( vec , ( which_lib::vector<char>{ 'z','z','z','z','z','z','z','z' } ) );
-    //     EXPECT_EQ( vec.size() , 8 );
-    //     EXPECT_EQ( vec.capacity() , 8 );
-    // }
+        // assigning count values to which_lib::vector, with count > size().
+        vec = { 'a', 'b', 'c', 'd', 'e' };
+        vec.assign( 8, 'z' );
+        EXPECT_EQ( vec , ( which_lib::vector<char>{ 'z','z','z','z','z','z','z','z' } ) );
+        EXPECT_EQ( vec.size() , 8 );
+        EXPECT_EQ( vec.capacity() , 8 );
+    }
 
 
     {
