@@ -107,6 +107,11 @@ namespace sc {
 
         public:
             //=== [I] SPECIAL MEMBERS (6 OF THEM)
+            /**
+             * @brief Constructs an empty container, with no elements
+             *
+             * @param value inform the vector size
+             */
             explicit vector( size_type value = 0 )
                 : m_end {value},
                   m_capacity {value},
@@ -134,7 +139,13 @@ namespace sc {
                   m_storage {new T[m_end]} {
                 std::copy(ilist.begin(), ilist.end(), m_storage.get());
             }
-            
+
+            /**
+             * @brief Constructs a container with as many elements as the range [first,last)
+             *
+             * @param first Iterator for the first element
+             * @param last Iterator to the position after the end of the range
+             */
             template < typename InputItr >
             vector( InputItr first, InputItr last) {
                 auto auxiliaryFirst = first;
@@ -190,9 +201,15 @@ namespace sc {
             }
 
             //=== [II] ITERATORS
+            /**
+             * @return an iterator to the begin of the vector
+             */
             iterator begin( void ) {
                 return iterator{m_storage.get()};
             };
+            /**
+             * @return an iterator to the position after the end of the vector
+             */
             iterator end( void ) {
                 return iterator{m_storage.get() + m_end};
             };
@@ -216,6 +233,9 @@ namespace sc {
             size_type size( void ) const {
                 return m_end;
             }
+            /**
+             * @return the capacity of the vector
+             */
             size_type capacity( void ) const {
                 return m_capacity;
             };
@@ -227,9 +247,16 @@ namespace sc {
             }
 
             // [IV] Modifiers
+            /**
+             * @brief removes all elements from the vector
+             */
             void clear( void ) {
                 m_end = 0;
             }
+
+            /**
+             * @brief Inserts an element in the first position of the vector
+             */
             void push_front( const_reference value) {
                 // Verificar se ha espaco para novo elemento.
                 if (m_end >= m_capacity) {
@@ -247,6 +274,9 @@ namespace sc {
                 m_storage[0] = value;
                 m_end++;
             };
+            /**
+             * @brief Inserts an element in the last position of the vector
+             */
             void push_back( const_reference value ) {
                 // Verificar se ha espaco para novo elemento.
                 if (m_end >= m_capacity) {
@@ -270,9 +300,12 @@ namespace sc {
                     throw std::runtime_error("pop_back(): cannot use this method on an empty vector");
                 m_end--;
             }
+            /**
+             * @brief removes the first element of the vector
+             */
             void pop_front( void ) {
                 if (m_end == 0)
-                    throw std::runtime_error("pop_back(): cannot use this method on an empty vector");
+                    throw std::runtime_error("pop_front(): cannot use this method on an empty vector");
                 for ( auto i {0u}; i < m_end - 1; i++ ) {
                     m_storage[i] = m_storage[i + 1];
                 }
@@ -379,6 +412,12 @@ namespace sc {
                 return begin() + pos_;
             }
 
+            /**
+             * @brief Requests that the vector capacity be at least enough to contain value elements.
+             *
+             * @param value number of elements
+             *  
+             */
             void reserve( size_type new_capacity) {
                 if (new_capacity > m_capacity) {
                     m_capacity = new_capacity;
@@ -400,6 +439,12 @@ namespace sc {
                 }
             }
 
+            /**
+             * @brief Replaces the content of the vector with count occurences of value
+             *
+             * @param count the new size of the vector
+             * @param value the value to put in the vector
+             */
             void assign( size_type count, const_reference value ) {
                 if (count >= m_capacity) {
                     m_capacity = count;
@@ -413,9 +458,21 @@ namespace sc {
                 std::fill(begin(), end(), value);
 
             }
+            /**
+             * @brief replaces the values of the vector of the values of ilist
+             *
+             * @param ilist the initializer list to get the values from
+             */
             void assign( const std::initializer_list<T>& ilist ) {
                 *this = ilist;
             }
+            /**
+             * @brief replaces the values of the vector with the values of range [first, last)
+             *
+             * @tparam InputItr an iterator type
+             * @param first an iterator to the begin of the range
+             * @param last an iterator to the position after the end of the range
+             */
             template < typename InputItr >
             void assign( InputItr first, InputItr last ) {
                 auto new_size = std::distance( first, last );
@@ -428,13 +485,28 @@ namespace sc {
                 m_end = new_size;
                 std::copy(first, last, m_storage.get());
             };
-
+            /**
+             * @brief  Removes from the vector either a range of elements ([first,last)).
+             *
+             * @param first an iterator for the first element of the vector
+             * @param last an iterator to the position after the end of the range
+             *
+             * @return an iterator pointing to the new location of the element that followed the last element erased by the function call.
+             */
             iterator erase( iterator first, iterator last ) {
                 for (auto i{0u}; last + i != end(); i++)
                     *(first + i) = *(last + i);
                 m_end -= std::distance( first, last );
                 return first; 
             };
+            /**
+             * @brief  Removes from the vector either a range of elements ([first,last)).
+             *
+             * @param first an const iterator for the first element of the vector
+             * @param last an const iterator to the position after the end of the range
+             *
+             * @return an iterator pointing to the new location of the element that followed the last element erased by the function call.
+             */
             iterator erase( const_iterator first, const_iterator last ) {
                 int counter = std::distance( first, last );
                 auto auxiliaryFirst = first;
@@ -446,13 +518,26 @@ namespace sc {
                 m_end -= counter;
                 return first; 
             };
-
+            /**
+             * @brief  Removes from the vector either a single element (position).
+             *
+             * @param pos an iterator for a element of the vector
+             *
+             * @return an iterator pointing to the new location of the element that followed the last element erased by the function call.
+             */
             iterator erase( const_iterator pos ) {
                 for (auto i{0u}; pos + i + 1 != end(); i++)
                     *(pos + i) = *(pos + i + 1);
                 m_end--;
                 return pos;            
             };
+            /**
+             * @brief  Removes from the vector either a single element (position).
+             *
+             * @param pos an iterator for a element of the vector
+             *
+             * @return an iterator pointing to the new location of the element that followed the last element erased by the function call.
+             */
             iterator erase( iterator pos ) {
                 for (auto i{0u}; pos + i + 1 != end(); i++)
                     *(pos + i) = *(pos + i + 1);
@@ -469,6 +554,9 @@ namespace sc {
                     throw std::runtime_error("back(): cannot use this method on an empty vector");
                 return m_storage[m_end - 1];
             }
+            /**
+             * @return a const reference to the first value of the vector
+             */
             const_reference front( void ) const {
                 if ( empty() )
                     throw std::length_error ("front(): cannot use this method on an empty vecotr.");
@@ -482,6 +570,9 @@ namespace sc {
                     throw std::runtime_error("back(): cannot use this method on an empty vector");
                 return m_storage[m_end - 1];
             }
+            /**
+             * @return a  reference to the first value of the vector
+             */
             reference front( void ){
                 if ( empty() )
                     throw std::length_error ("front(): cannot use this method on an empty vecotr.");
@@ -507,24 +598,41 @@ namespace sc {
             reference operator[]( size_type pos ) {
                 return m_storage[pos];
             }
-
+            /**
+             * @brief Returns a reference to the element at position pos in the vector
+             *
+             * @param pos the position to get the value from vector
+             *
+             * @return a const reference to the value at pos
+             */
             const_reference at( size_type value ) const {
                 if (!(value < size())) {
                     throw std::out_of_range("at(): Invalid position, there are no elements in this position");
                 }
                 return m_storage.get()[value];
             };
-
+            /**
+             * @brief Returns a reference to the element at position pos in the vector
+             *
+             * @param pos the position to get the value from vector
+             *
+             * @return a reference to the value at pos
+             */
             reference at( size_type value) {
                 if (!(value < size())) {
                     throw std::out_of_range("at(): Invalid position, there are no elements in this position");
                 }
                 return m_storage.get()[value];
             };
-
+            /**
+             * @return Returns a direct pointer to the memory array used internally by the vector to store its owned elements.
+             */
             pointer data( void ) {
                 return m_storage.get();
             };
+            /**
+             * @return Returns a direct const pointer to the memory array used internally by the vector to store its owned elements.
+             */
             const_reference data( void ) const {
                 return m_storage.get();
             };
@@ -555,6 +663,9 @@ namespace sc {
             }
 
         private:
+            /**
+             * @return returns true if the vector is full and false otherwise.
+             */
             bool full( void ) const {
                 return m_end == m_capacity;
             };
