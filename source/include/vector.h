@@ -229,36 +229,38 @@ namespace sc {
             // [IV] Modifiers
             void clear( void ) {
                 m_end = 0;
-            };
+            }
             void push_front( const_reference value) {
                 // Verificar se ha espaco para novo elemento.
-                if (m_end + 1 >= m_capacity) {
-                    m_capacity*=2;
+                if (m_end >= m_capacity) {
+                    if (m_capacity == 0) m_capacity++;
+                    else m_capacity *= 2;
                     std::unique_ptr<T[]> new_storage {new T[m_capacity]};
                     // Copies values of the vector to the begining of the new storage
                     std::copy(begin(), end(), new_storage.get() + 1);
-                    m_end++;
-                    m_storage[0] = value;
+
+                    m_storage = std::move(new_storage);
                 } else {
-                    // Realizar a insercao de fato.
-                    m_storage[ m_end ] = value;
-                    m_end++;
+                    for (auto i {0u}; i < m_end; i++)
+                        m_storage[i + 1] = m_storage[i];
                 }
+                m_storage[0] = value;
+                m_end++;
             };
             void push_back( const_reference value ) {
                 // Verificar se ha espaco para novo elemento.
-                if (m_end == m_capacity) {
-                    m_capacity*=2;
+                if (m_end >= m_capacity) {
+                    if (m_capacity == 0) m_capacity++;
+                    else m_capacity *= 2;
                     std::unique_ptr<T[]> new_storage {new T[m_capacity]};
-                    // Copies values of the vector to the begining of the new storage
+                    // Copies values of the vector to the new storage
                     std::copy(begin(), end(), new_storage.get());
-                    m_end++;
-                    m_storage[m_end - 1] = value;
-                } else {
-                    // Realizar a insercao de fato.
-                    m_storage[ m_end ] = value;
-                    m_end++;
+
+                    m_storage = std::move(new_storage);
                 }
+                // Realizar a insercao de fato.
+                m_storage[m_end] = value;
+                m_end++;
             };
             /**
              * @brief removes the last element of the vector
@@ -377,12 +379,13 @@ namespace sc {
                 return begin() + pos_;
             }
 
-            void reserve( size_type value) {
-                if(value > m_capacity) {
-                    m_capacity*=2;
+            void reserve( size_type new_capacity) {
+                if (new_capacity > m_capacity) {
+                    m_capacity = new_capacity;
                     std::unique_ptr<T[]> new_storage {new T[m_capacity]};
-                    // Copies values of the vector to the begining of the new storage
+                    // Copies new_capacitys of the vector to the begining of the new storage
                     std::copy(begin(), end(), new_storage.get());
+                    m_storage = std::move(new_storage);
                 }
             };
             /**
@@ -397,7 +400,19 @@ namespace sc {
                 }
             }
 
-            void assign( size_type count_, const_reference value_ );
+            void assign( size_type count, const_reference value ) {
+                if (count >= m_capacity) {
+                    m_capacity = count;
+
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    m_storage = std::move(new_storage);
+                }
+                
+                m_end = count;
+
+                std::fill(begin(), end(), value);
+
+            }
             void assign( const std::initializer_list<T>& ilist );
             template < typename InputItr >
             void assign( InputItr first, InputItr last );
@@ -552,6 +567,7 @@ namespace sc {
             void create_space( size_type pos, size_type size ) {
                 auto new_end {m_end + size};
                 if (new_end > m_capacity) {
+                    if (m_capacity == 0) m_capacity++;
                     do m_capacity *= 2; while (new_end > m_capacity);
 
                     std::unique_ptr<T[]> new_storage {new T[m_capacity]};

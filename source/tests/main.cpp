@@ -131,27 +131,27 @@ int main( void )
         EXPECT_EQ( vec.size(), 0 );
         EXPECT_EQ( vec.capacity(), 5 );
 
-        // size_t final_len{7}; // The final length of array.
-        // which_lib::vector<int> vec2;
-        // EXPECT_EQ( vec2.size(), 0 );
-        // for( auto i{0u} ; i < final_len ; ++i )
-        // {
-        //     vec2.push_back(i);
-        //     EXPECT_EQ( vec2.size(), i+1 );
-        // }
+        size_t final_len{7}; // The final length of array.
+        which_lib::vector<int> vec2;
+        EXPECT_EQ( vec2.size(), 0 );
+        for( auto i{0u} ; i < final_len ; ++i )
+        {
+            vec2.push_back(i);
+            EXPECT_EQ( vec2.size(), i+1 );
+        }
 
-        // which_lib::vector<int> vec3(vec2);
-        // EXPECT_EQ( vec3.size(), final_len );
+        which_lib::vector<int> vec3(vec2);
+        EXPECT_EQ( vec3.size(), final_len );
 
-        // vec3.pop_back();
-        // vec3.pop_back();
-        // EXPECT_EQ( vec3.size(), final_len-2 );
-        // vec3.pop_back();
-        // vec3.pop_back();
-        // vec3.pop_back();
-        // vec3.pop_back();
-        // vec3.pop_back();
-        // EXPECT_EQ( vec3.size(), 0 );
+        vec3.pop_back();
+        vec3.pop_back();
+        EXPECT_EQ( vec3.size(), final_len-2 );
+        vec3.pop_back();
+        vec3.pop_back();
+        vec3.pop_back();
+        vec3.pop_back();
+        vec3.pop_back();
+        EXPECT_EQ( vec3.size(), 0 );
     }
 
 
@@ -273,33 +273,33 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "AssignCountValue","Assign count value: vec.assign(3, value)");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<long> vec{ 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "AssignCountValue","Assign count value: vec.assign(3, value)");
+        // #1 From an empty vector.
+        which_lib::vector<long> vec{ 1, 2, 3, 4, 5 };
 
-    //     EXPECT_EQ( vec.size(), 5 );
-    //     auto original_cap = vec.capacity();
+        EXPECT_EQ( vec.size(), 5 );
+        auto original_cap = vec.capacity();
 
-    //     // Test assign with a count smaller than the original vec size.
-    //     long value{-4};
-    //     vec.assign( 3, value ); // 3 < 5 
-    //     EXPECT_EQ( vec.size(), 3 );
-    //     // Capacity should be the same, because we do not need to allocate new memory..
-    //     EXPECT_EQ( vec.capacity(), original_cap );
-    //     // Verify the elements.
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( value, vec[i] );
+        // Test assign with a count smaller than the original vec size.
+        long value{-4};
+        vec.assign( 3, value ); // 3 < 5 
+        EXPECT_EQ( vec.size(), 3 );
+        // Capacity should be the same, because we do not need to allocate new memory..
+        EXPECT_EQ( vec.capacity(), original_cap );
+        // Verify the elements.
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( value, vec[i] );
 
-    //     // Test assign with a count GREATER than the original vec size.
-    //     value = 42;
-    //     vec.assign( 10, value ); // 10 > 5
-    //     EXPECT_EQ( vec.size(), 10 );
-    //     EXPECT_GE( vec.capacity(), original_cap );
-    //     // Verify the elements.
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( value, vec[i] );
-    // }
+        // Test assign with a count GREATER than the original vec size.
+        value = 42;
+        vec.assign( 10, value ); // 10 > 5
+        EXPECT_EQ( vec.size(), 10 );
+        EXPECT_GE( vec.capacity(), original_cap );
+        // Verify the elements.
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( value, vec[i] );
+    }
 
 
 
