@@ -31,7 +31,7 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 **Capacity methods (3 credits)**
 - [X] `empty()` (1 credits);
 - [X] `size()` (1 credits);
-- [ ] `capacity()` (1 credits);
+- [X] `capacity()` (1 credits);
 
 **Modifiers methods (52 credits)**
 - [X] `clear()` (1 credits)
