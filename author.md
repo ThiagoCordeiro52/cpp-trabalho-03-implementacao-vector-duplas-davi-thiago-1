@@ -31,7 +31,7 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 **Capacity methods (3 credits)**
 - [X] `empty()` (1 credits);
 - [X] `size()` (1 credits);
-- [ ] `capacity()` (1 credits);
+- [X] `capacity()` (1 credits);
 
 **Modifiers methods (52 credits)**
 - [X] `clear()` (1 credits)
@@ -40,7 +40,7 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 - [X] `insert()` \times 6 (18 credits)
 - [X] `reserve()` (3 credits)
 - [X] `shrink_to_fit()` (3 credits)
-- [ ] `assign()` \times 3 (9 credits)
+- [X] `assign()` \times 3 (9 credits)
 - [X] `erase()` \times 4 (12 credits)
 
 **Element access methods (10 credits)**
@@ -63,7 +63,7 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 **Navigation methods (12 credits)**
 - [X] increment operator `++it` and `it++` (2 credits)
 - [X] decrement operator `--it` and `it--` (2 credits)
-- [ ] forward jump operator `it + n` or `n + it`   (2 credits)
+- [X] forward jump operator `it + n` or `n + it`   (2 credits)
 - [X] backward jump operator `it - n` or `n - it`   (2 credits)
 - [X] difference between iterators `it1-it2` (1 credits)
 - [X] dereference operator `*it` (1 credits)

@@ -413,19 +413,26 @@ namespace sc {
                 std::fill(begin(), end(), value);
 
             }
-            void assign( const std::initializer_list<T>& ilist );
+            void assign( const std::initializer_list<T>& ilist ) {
+                *this = ilist;
+            }
             template < typename InputItr >
-            void assign( InputItr first, InputItr last );
+            void assign( InputItr first, InputItr last ) {
+                auto new_size = std::distance( first, last );
+                if (new_size != m_capacity) {
+                    m_capacity = new_size;
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+
+                    m_storage = std::move(new_storage);
+                }
+                m_end = new_size;
+                std::copy(first, last, m_storage.get());
+            };
 
             iterator erase( iterator first, iterator last ) {
-                int counter = std::distance( first, last );
-                auto auxiliaryFirst = first;
-                while(last != this->end()) {
-                    *auxiliaryFirst = *last;
-                    auxiliaryFirst++;
-                    last++;
-                }
-                m_end -= counter;
+                for (auto i{0u}; last + i != end(); i++)
+                    *(first + i) = *(last + i);
+                m_end -= std::distance( first, last );
                 return first; 
             };
             iterator erase( const_iterator first, const_iterator last ) {
@@ -441,22 +448,16 @@ namespace sc {
             };
 
             iterator erase( const_iterator pos ) {
-                auto auxiliaryPos = pos;
-                while(auxiliaryPos != this->end() - 1) {
-                    *auxiliaryPos = *(auxiliaryPos + 1);
-                    auxiliaryPos++;
-                }
+                for (auto i{0u}; pos + i + 1 != end(); i++)
+                    *(pos + i) = *(pos + i + 1);
                 m_end--;
                 return pos;            
             };
             iterator erase( iterator pos ) {
-                auto auxiliaryPos = pos;
-                while(auxiliaryPos != this->end() - 1) {
-                    *auxiliaryPos = *(auxiliaryPos + 1);
-                    auxiliaryPos++;
-                }
+                for (auto i{0u}; pos + i + 1 != end(); i++)
+                    *(pos + i) = *(pos + i + 1);
                 m_end--;
-                return pos;
+                return pos;            
             };
 
             // [V] Element access
