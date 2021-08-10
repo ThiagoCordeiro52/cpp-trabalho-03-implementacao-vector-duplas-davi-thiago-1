@@ -56,20 +56,17 @@ namespace sc {
                 return old;
             }
             
-            friend self_type operator+( difference_type difference, self_type vec) {
-                return self_type{difference + vec.m_ptr};
+            friend self_type operator+( difference_type difference, self_type it) {
+                return self_type{difference + it.m_ptr};
             };
-            friend self_type operator+( self_type vec, difference_type difference ) {
-                return self_type{vec.m_ptr + difference };
+            friend self_type operator+( self_type it, difference_type difference ) {
+                return self_type{it.m_ptr + difference };
             };
-            friend difference_type operator-( self_type vec1, self_type vec2 ) {
-                return vec1.m_ptr - vec2.m_ptr;
+            friend self_type operator-( self_type it, difference_type difference ) {
+                return self_type{it.m_ptr - difference};
             }
-            // friend self_type operator-( difference_type difference, self_type vec ) {
-            //     return self_type{difference - vec.m_ptr};
-            // }
-            friend self_type operator-( self_type vec, difference_type difference ) {
-                return self_type{vec.m_ptr - difference};
+            difference_type operator-( self_type it ) {
+                return m_ptr - it.m_ptr;
             }
             bool operator==( const self_type& other) const {
                 return other.m_ptr == m_ptr;
