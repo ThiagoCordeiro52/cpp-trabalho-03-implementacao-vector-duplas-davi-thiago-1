@@ -139,7 +139,18 @@ namespace sc {
             }
             
             template < typename InputItr >
-            vector( InputItr, InputItr );
+            vector( InputItr first, InputItr last) {
+                auto auxiliaryFirst = first;
+                int counter {0};
+                while(auxiliaryFirst != last) {
+                    auxiliaryFirst++;
+                    counter++;
+                };
+                m_storage = std::unique_ptr<T[]>( new T[counter] );
+                m_end = counter;
+                m_capacity = counter;
+                std::copy(first, last, m_storage.get());
+            };
 
             /**
              * @brief Copies the values of vec to this vector
@@ -219,9 +230,39 @@ namespace sc {
             }
 
             // [IV] Modifiers
-            void clear( void );
-            void push_front( const_reference );
-            void push_back( const_reference );
+            void clear( void ) {
+                m_end = 0;
+            };
+            void push_front( const_reference value) {
+                // Verificar se ha espaco para novo elemento.
+                if (m_end + 1 >= m_capacity) {
+                    m_capacity*=2;
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    // Copies values of the vector to the begining of the new storage
+                    std::copy(begin(), end(), new_storage.get() + 1);
+                    m_end++;
+                    m_storage[0] = value;
+                } else {
+                    // Realizar a insercao de fato.
+                    m_storage[ m_end ] = value;
+                    m_end++;
+                }
+            };
+            void push_back( const_reference value ) {
+                // Verificar se ha espaco para novo elemento.
+                if (m_end == m_capacity) {
+                    m_capacity*=2;
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    // Copies values of the vector to the begining of the new storage
+                    std::copy(begin(), end(), new_storage.get());
+                    m_end++;
+                    m_storage[m_end - 1] = value;
+                } else {
+                    // Realizar a insercao de fato.
+                    m_storage[ m_end ] = value;
+                    m_end++;
+                }
+            };
             /**
              * @brief removes the last element of the vector
              */
@@ -230,7 +271,14 @@ namespace sc {
                     throw std::runtime_error("pop_back(): cannot use this method on an empty vector");
                 m_end--;
             }
-            void pop_front( void );
+            void pop_front( void ) {
+                if (m_end == 0)
+                    throw std::runtime_error("pop_back(): cannot use this method on an empty vector");
+                for ( auto i {0u}; i < m_end - 1; i++ ) {
+                    m_storage[i] = m_storage[i + 1];
+                }
+                m_end--;
+            };
 
             // does not work if pos_ > m_end
             /**
@@ -332,7 +380,14 @@ namespace sc {
                 return begin() + pos_;
             }
 
-            void reserve( size_type );
+            void reserve( size_type value) {
+                if(value > m_capacity) {
+                    m_capacity*=2;
+                    std::unique_ptr<T[]> new_storage {new T[m_capacity]};
+                    // Copies values of the vector to the begining of the new storage
+                    std::copy(begin(), end(), new_storage.get());
+                }
+            };
             /**
              * @brief Adjusts the capacity of the array to be equal to the size
              */
@@ -350,11 +405,47 @@ namespace sc {
             template < typename InputItr >
             void assign( InputItr first, InputItr last );
 
-            iterator erase( iterator first, iterator last );
-            iterator erase( const_iterator first, const_iterator last );
+            iterator erase( iterator first, iterator last ) {
+                int counter = std::distance( first, last );
+                auto auxiliaryFirst = first;
+                while(last != this->end()) {
+                    *auxiliaryFirst = *last;
+                    auxiliaryFirst++;
+                    last++;
+                }
+                m_end -= counter;
+                return first; 
+            };
+            iterator erase( const_iterator first, const_iterator last ) {
+                int counter = std::distance( first, last );
+                auto auxiliaryFirst = first;
+                while(last != this->end()) {
+                    *auxiliaryFirst = *last;
+                    auxiliaryFirst++;
+                    last++;
+                }
+                m_end -= counter;
+                return first; 
+            };
 
-            iterator erase( const_iterator pos );
-            iterator erase( iterator pos );
+            iterator erase( const_iterator pos ) {
+                auto auxiliaryPos = pos;
+                while(auxiliaryPos != this->end() - 1) {
+                    *auxiliaryPos = *(auxiliaryPos + 1);
+                    auxiliaryPos++;
+                }
+                m_end--;
+                return pos;            
+            };
+            iterator erase( iterator pos ) {
+                auto auxiliaryPos = pos;
+                while(auxiliaryPos != this->end() - 1) {
+                    *auxiliaryPos = *(auxiliaryPos + 1);
+                    auxiliaryPos++;
+                }
+                m_end--;
+                return pos;
+            };
 
             // [V] Element access
             /**
@@ -365,7 +456,11 @@ namespace sc {
                     throw std::runtime_error("back(): cannot use this method on an empty vector");
                 return m_storage[m_end - 1];
             }
-            const_reference front( void ) const;
+            const_reference front( void ) const {
+                if ( empty() )
+                    throw std::length_error ("front(): cannot use this method on an empty vecotr.");
+                return m_storage[0];
+            };
             /**
              * @return a reference to the last value of the vector
              */
@@ -374,7 +469,11 @@ namespace sc {
                     throw std::runtime_error("back(): cannot use this method on an empty vector");
                 return m_storage[m_end - 1];
             }
-            reference front( void );
+            reference front( void ){
+                if ( empty() )
+                    throw std::length_error ("front(): cannot use this method on an empty vecotr.");
+                return m_storage[0];    
+            };
             /**
              * @brief Gets the value at pos without bound check
              *
@@ -396,16 +495,26 @@ namespace sc {
                 return m_storage[pos];
             }
 
-            // const_reference at( size_type value ) const {
-            //     if (m_end <= value) {
-            //         return m_storage.get()[pos];
-            //     } else {
-            //         throw
-            //     }
-            // };
-            reference at( size_type );
-            pointer data( void );
-            const_reference data( void ) const;
+            const_reference at( size_type value ) const {
+                if (!(value < size())) {
+                    throw std::out_of_range("at(): Invalid position, there are no elements in this position");
+                }
+                return m_storage.get()[value];
+            };
+
+            reference at( size_type value) {
+                if (!(value < size())) {
+                    throw std::out_of_range("at(): Invalid position, there are no elements in this position");
+                }
+                return m_storage.get()[value];
+            };
+
+            pointer data( void ) {
+                return m_storage.get();
+            };
+            const_reference data( void ) const {
+                return m_storage.get();
+            };
 
             // [VII] Friend functions.
             friend std::ostream & operator<<( std::ostream & os_, const vector<T> & v_ )
@@ -433,7 +542,9 @@ namespace sc {
             }
 
         private:
-            bool full( void ) const;
+            bool full( void ) const {
+                return m_end == m_capacity;
+            };
             /**
              * @brief Creates an empty space of size size at position pos (this is an auxiliary method to insert)
              *
@@ -487,7 +598,17 @@ namespace sc {
         return true;
     }
     template <typename T>
-    bool operator!=( const vector<T> &, const vector<T>& );
+    bool operator!=( const vector<T> & vec1, const vector<T>& vec2) {
+        bool oneElement = false;
+        if (vec1.size() != vec2.size()){
+            return true;
+        }
+        for (auto i {0u}; i < vec1.size(); i++) {
+            if (vec1[i] != vec2[i])
+                oneElement = true;
+        }
+        return oneElement;
+    };
 
 } // namespace sc.
 #endif

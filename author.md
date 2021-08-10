@@ -41,13 +41,13 @@ Preencha os dados abaixo para identificar a autoria do trabalho.
 - [ ] `reserve()` (3 credits)
 - [X] `shrink_to_fit()` (3 credits)
 - [ ] `assign()` \times 3 (9 credits)
-- [ ] `erase()` \times 4 (12 credits)
+- [X] `erase()` \times 4 (12 credits)
 
 **Element access methods (10 credits)**
 - [ ] `front()` (1 credits)
 - [X] `back()` (1 credits)
 - [X] `operator[]()` \times 2 (4 credits)
-- [ ] `at()` \times 2 (4 credits)
+- [X] `at()` \times 2 (4 credits)
 
 **Operators (2 credits)**
 - [X] `operator==()` (1 credits)

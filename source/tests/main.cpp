@@ -47,28 +47,28 @@ int main( void )
             EXPECT_EQ( (int)i+1, vec[i] );
     }   
 
-    // {
-    //     BEGIN_TEST(tm,"RangeConstructor", "vector<int> vec{ first, last }");
-    //     // Range = the entire vector.
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2{ vec.begin(), vec.end() };
+    {
+        BEGIN_TEST(tm,"RangeConstructor", "vector<int> vec{ first, last }");
+        // Range = the entire vector.
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2{ vec.begin(), vec.end() };
 
-    //     EXPECT_EQ( vec2.size(), 5 );
-    //     EXPECT_FALSE( vec.empty() );
+        EXPECT_EQ( vec2.size(), 5 );
+        EXPECT_FALSE( vec.empty() );
 
-    //     for( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( (int)i+1, vec[i] );
+        for( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( (int)i+1, vec[i] );
 
-    //     // Range is part of the vector.
-    //     which_lib::vector<int> vec3( std::next( vec.begin(), 1 ), std::next( vec.begin(), 3 ) );
-    //     auto offset{1};
-    //     // which_lib::vector<int> vec3( vec.begin() + offset , vec.begin() + 3 );
-    //     EXPECT_EQ( vec3.size(), 2 );
-    //     EXPECT_FALSE( vec3.empty() );
+        // Range is part of the vector.
+        which_lib::vector<int> vec3( std::next( vec.begin(), 1 ), std::next( vec.begin(), 3 ) );
+        auto offset{1};
+        // which_lib::vector<int> vec3( vec.begin() + offset , vec.begin() + 3 );
+        EXPECT_EQ( vec3.size(), 2 );
+        EXPECT_FALSE( vec3.empty() );
 
-    //     for( auto i{0u} ; i < vec3.size() ; ++i )
-    //         EXPECT_EQ( vec[i+offset], vec3[i] );
-    // }
+        for( auto i{0u} ; i < vec3.size() ; ++i )
+            EXPECT_EQ( vec[i+offset], vec3[i] );
+    }
 
     {
         BEGIN_TEST(tm, "CopyConstructor","vector<int> vec_clone{ vec }");
@@ -127,80 +127,80 @@ int main( void )
         which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
         EXPECT_EQ( vec.size(), 5 );
         EXPECT_EQ( vec.capacity(), 5 );
-    //     vec.clear();
-    //     EXPECT_EQ( vec.size(), 0 );
-    //     EXPECT_EQ( vec.capacity(), 5 );
+        vec.clear();
+        EXPECT_EQ( vec.size(), 0 );
+        EXPECT_EQ( vec.capacity(), 5 );
 
-    //     size_t final_len{7}; // The final length of array.
-    //     which_lib::vector<int> vec2;
-    //     EXPECT_EQ( vec2.size(), 0 );
-    //     for( auto i{0u} ; i < final_len ; ++i )
-    //     {
-    //         vec2.push_back(i);
-    //         EXPECT_EQ( vec2.size(), i+1 );
-    //     }
+        // size_t final_len{7}; // The final length of array.
+        // which_lib::vector<int> vec2;
+        // EXPECT_EQ( vec2.size(), 0 );
+        // for( auto i{0u} ; i < final_len ; ++i )
+        // {
+        //     vec2.push_back(i);
+        //     EXPECT_EQ( vec2.size(), i+1 );
+        // }
 
-    //     which_lib::vector<int> vec3(vec2);
-    //     EXPECT_EQ( vec3.size(), final_len );
+        // which_lib::vector<int> vec3(vec2);
+        // EXPECT_EQ( vec3.size(), final_len );
 
-    //     vec3.pop_back();
-    //     vec3.pop_back();
-    //     EXPECT_EQ( vec3.size(), final_len-2 );
-    //     vec3.pop_back();
-    //     vec3.pop_back();
-    //     vec3.pop_back();
-    //     vec3.pop_back();
-    //     vec3.pop_back();
-    //     EXPECT_EQ( vec3.size(), 0 );
+        // vec3.pop_back();
+        // vec3.pop_back();
+        // EXPECT_EQ( vec3.size(), final_len-2 );
+        // vec3.pop_back();
+        // vec3.pop_back();
+        // vec3.pop_back();
+        // vec3.pop_back();
+        // vec3.pop_back();
+        // EXPECT_EQ( vec3.size(), 0 );
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "Clear", "vec.clear()");
-    //     // Range = the entire vector.
-    //     which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "Clear", "vec.clear()");
+        // Range = the entire vector.
+        which_lib::vector<int> vec = { 1, 2, 3, 4, 5 };
 
-    //     EXPECT_EQ( vec.size(), 5 );
-    //     EXPECT_EQ( vec.capacity(), 5 );
-    //     EXPECT_FALSE( vec.empty() );
+        EXPECT_EQ( vec.size(), 5 );
+        EXPECT_EQ( vec.capacity(), 5 );
+        EXPECT_FALSE( vec.empty() );
 
-    //     vec.clear();
+        vec.clear();
 
-    //     EXPECT_EQ( vec.size(), 0 );
-    //     EXPECT_EQ( vec.capacity(), 5 );
-    //     EXPECT_TRUE( vec.empty() );
-    // }
+        EXPECT_EQ( vec.size(), 0 );
+        EXPECT_EQ( vec.capacity(), 5 );
+        EXPECT_TRUE( vec.empty() );
+    }
 
-    // {
-    //     BEGIN_TEST(tm, "PushBack", "vec.push_back(value)");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<int> vec;
+    {
+        BEGIN_TEST(tm, "PushBack", "vec.push_back(value)");
+        // #1 From an empty vector.
+        which_lib::vector<int> vec;
 
-    //     EXPECT_TRUE( vec.empty() );
-    //     for ( auto i{0} ; i < 5 ; ++i )
-    //     {
-    //         vec.push_back( i+1 );
-    //         EXPECT_EQ( (int)vec.size(),  i+1 );
-    //     }
-    //     EXPECT_FALSE( vec.empty() );
+        EXPECT_TRUE( vec.empty() );
+        for ( auto i{0} ; i < 5 ; ++i )
+        {
+            vec.push_back( i+1 );
+            EXPECT_EQ( (int)vec.size(),  i+1 );
+        }
+        EXPECT_FALSE( vec.empty() );
 
-    //     for( auto i{4u} ; i >= vec.size() ; --i )
-    //         EXPECT_EQ( (int)i+1, vec[i] );
+        for( auto i{4u} ; i >= vec.size() ; --i )
+            EXPECT_EQ( (int)i+1, vec[i] );
 
-    //     // Remove all elements.
-    //     vec.clear();
-    //     EXPECT_TRUE( vec.empty()  );
-    //     // Insert again.
-    //     for ( auto i{0u} ; i < 5 ; ++i )
-    //     {
-    //         vec.push_back( i+1 );
-    //         EXPECT_EQ( vec.size(),  i+1 );
-    //     }
-    //     EXPECT_FALSE( vec.empty() );
+        // Remove all elements.
+        vec.clear();
+        EXPECT_TRUE( vec.empty()  );
+        // Insert again.
+        for ( auto i{0u} ; i < 5 ; ++i )
+        {
+            vec.push_back( i+1 );
+            EXPECT_EQ( vec.size(),  i+1 );
+        }
+        EXPECT_FALSE( vec.empty() );
 
-    //     for( auto i{4u} ; i >= vec.size() ; --i )
-    //         EXPECT_EQ( (int)i+1, vec[i] );
-    // }
+        for( auto i{4u} ; i >= vec.size() ; --i )
+            EXPECT_EQ( (int)i+1, vec[i] );
+    }
 
     {
         BEGIN_TEST(tm, "PopBack", "vec.pop_back()");
@@ -216,32 +216,32 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "Front", "reference front() version: vec.front() = x");
-    //     which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "Front", "reference front() version: vec.front() = x");
+        which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
 
-    //     auto i{0};
-    //     while( not vec.empty() )
-    //     {
-    //         auto current_size = vec.size();
-    //         EXPECT_EQ( vec.front(), ++i );
-    //         vec.front() = 100;
-    //         EXPECT_EQ( current_size, vec.size() );
-    //         EXPECT_EQ( vec[0], 100 );
+        auto i{0};
+        while( not vec.empty() )
+        {
+            auto current_size = vec.size();
+            EXPECT_EQ( vec.front(), ++i );
+            vec.front() = 100;
+            EXPECT_EQ( current_size, vec.size() );
+            EXPECT_EQ( vec[0], 100 );
 
-    //         vec.erase( vec.begin() );
-    //     }
-    // }
+            vec.erase( vec.begin() );
+        }
+    }
 
-    // {
-    //     BEGIN_TEST(tm, "FrontConst","const front() version: x = vec.front()");
+    {
+        BEGIN_TEST(tm, "FrontConst","const front() version: x = vec.front()");
 
-    //     const which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
-    //     EXPECT_EQ( vec.front(), 1 );
+        const which_lib::vector<int> vec{ 1, 2, 3, 4, 5 };
+        EXPECT_EQ( vec.front(), 1 );
 
-    //     const which_lib::vector<char> vec2{ 'a', 'e', 'i', 'o', 'u' };
-    //     EXPECT_EQ( vec2.front(), 'a' );
-    // }
+        const which_lib::vector<char> vec2{ 'a', 'e', 'i', 'o', 'u' };
+        EXPECT_EQ( vec2.front(), 'a' );
+    }
 
 
     {
@@ -326,60 +326,60 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "AtRHS","at() as RHS: x = vec.at(i);");
-    //     const which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     const which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "AtRHS","at() as RHS: x = vec.at(i);");
+        const which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        const which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
 
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( vec.at(i), vec2.at(i));
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( vec.at(i), vec2.at(i));
 
-    //     // Testing exception throwing.
-    //     bool worked{false};
-    //     try { vec.at( 40 ); }
-    //     catch( std::out_of_range & e )
-    //     { worked = true; }
+        // Testing exception throwing.
+        bool worked{false};
+        try { vec.at( 40 ); }
+        catch( std::out_of_range & e )
+        { worked = true; }
 
-    //     EXPECT_TRUE( worked );
-    // }
+        EXPECT_TRUE( worked );
+    }
 
 
-    // {
-    //     BEGIN_TEST(tm, "AtLHS","at() as a LHS: vec.at(i) = x;");
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2 { 10, 20, 30, 40, 50 };
+    {
+        BEGIN_TEST(tm, "AtLHS","at() as a LHS: vec.at(i) = x;");
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2 { 10, 20, 30, 40, 50 };
 
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         vec.at(i) = vec2.at(i);
-    //     for ( auto i{0u} ; i < vec.size() ; ++i )
-    //         EXPECT_EQ( vec.at(i), vec2.at(i) );
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            vec.at(i) = vec2.at(i);
+        for ( auto i{0u} ; i < vec.size() ; ++i )
+            EXPECT_EQ( vec.at(i), vec2.at(i) );
 
-    //     // Testing exception throwing.
-    //     bool worked{false};
-    //     try { vec.at( vec.size() ) = 100; }
-    //     catch( std::out_of_range & e )
-    //     { worked = true; }
+        // Testing exception throwing.
+        bool worked{false};
+        try { vec.at( vec.size() ) = 100; }
+        catch( std::out_of_range & e )
+        { worked = true; }
 
-    //     EXPECT_TRUE( worked );
-    // }
+        EXPECT_TRUE( worked );
+    }
 
-    // {
-    //     BEGIN_TEST(tm, "Reserve","reserve()");
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "Reserve","reserve()");
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
 
-    //     EXPECT_EQ( vec.capacity(), 5u );
-    //     vec.reserve(10);
-    //     EXPECT_EQ( vec.capacity(), 10u );
-    //     vec.reserve(3); // Nothing happens here.
-    //     EXPECT_EQ( vec.capacity(), 10u );
+        EXPECT_EQ( vec.capacity(), 5u );
+        vec.reserve(10);
+        EXPECT_EQ( vec.capacity(), 10u );
+        vec.reserve(3); // Nothing happens here.
+        EXPECT_EQ( vec.capacity(), 10u );
 
-    //     auto i{0};
-    //     for( const auto & e : vec )
-    //     {
-    //         EXPECT_EQ( e, ++i );
-    //     }
+        auto i{0};
+        for( const auto & e : vec )
+        {
+            EXPECT_EQ( e, ++i );
+        }
 
-    // }
+    }
 
     {
         BEGIN_TEST(tm, "Capacity","capacity()");
@@ -440,18 +440,18 @@ int main( void )
     }
 
 
-    // {
-    //     BEGIN_TEST(tm, "OperatorDifferent","vec1 != =vec2");
-    //     // #1 From an empty vector.
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
-    //     which_lib::vector<int> vec3 { 1, 2, 8, 4, 5 };
-    //     which_lib::vector<int> vec4 { 8, 4, 5 };
+    {
+        BEGIN_TEST(tm, "OperatorDifferent","vec1 != =vec2");
+        // #1 From an empty vector.
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec2 { 1, 2, 3, 4, 5 };
+        which_lib::vector<int> vec3 { 1, 2, 8, 4, 5 };
+        which_lib::vector<int> vec4 { 8, 4, 5 };
 
-    //     EXPECT_TRUE( not( vec != vec2 ) );
-    //     EXPECT_NE( vec, vec3 );
-    //     EXPECT_NE( vec,vec4 );
-    // }
+        EXPECT_TRUE( not( vec != vec2 ) );
+        EXPECT_NE( vec, vec3 );
+        EXPECT_NE( vec,vec4 );
+    }
 
     {
         BEGIN_TEST(tm, "InsertSingleValueAtPosition","vec.insert(pos, value)");
@@ -544,69 +544,69 @@ int main( void )
     // }
 
 
-    // {
-    //     BEGIN_TEST(tm, "EraseRange","vec.erase(first, last)");
-    //     // Initial vector.
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "EraseRange","vec.erase(first, last)");
+        // Initial vector.
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
 
-    //     // removing a segment from the beginning.
-    //     auto past_last = vec.erase( vec.begin(), std::next(vec.begin(),3) );
-    //     EXPECT_EQ( vec.begin() , past_last );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 4, 5 } ) );
-    //     // std::cout << *past_last <<" "<< *vec.begin()<< endl;
-    //     EXPECT_EQ( vec.size() , 2 );
+        // removing a segment from the beginning.
+        auto past_last = vec.erase( vec.begin(), std::next(vec.begin(),3) );
+        EXPECT_EQ( vec.begin() , past_last );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 4, 5 } ) );
+        // std::cout << *past_last <<" "<< *vec.begin()<< endl;
+        EXPECT_EQ( vec.size() , 2 );
 
-    //     // removing at the middle.
-    //     vec = { 1, 2, 3, 4, 5 };
-    //     past_last = vec.erase( std::next(vec.begin(),1), std::next(vec.begin(),4) );
-    //     // std::cout  << *past_last << " "<< *std::next(vec.begin(),1)  << std::endl; 
-    //     EXPECT_EQ( std::next(vec.begin(),1) , past_last );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 5 } ) );
-    //     EXPECT_EQ( vec.size() , 2 );
+        // removing at the middle.
+        vec = { 1, 2, 3, 4, 5 };
+        past_last = vec.erase( std::next(vec.begin(),1), std::next(vec.begin(),4) );
+        // std::cout  << *past_last << " "<< *std::next(vec.begin(),1)  << std::endl; 
+        EXPECT_EQ( std::next(vec.begin(),1) , past_last );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 5 } ) );
+        EXPECT_EQ( vec.size() , 2 );
 
-    //     // removing a segment that reached the end.
-    //     vec = { 1, 2, 3, 4, 5 };
-    //     past_last = vec.erase( std::next(vec.begin(),2), vec.end() );
-    //     EXPECT_EQ( vec.end() , past_last );
-    //     // std::cout  << *past_last << " "<< *std::next(vec.begin(),2)  << std::endl; 
+        // removing a segment that reached the end.
+        vec = { 1, 2, 3, 4, 5 };
+        past_last = vec.erase( std::next(vec.begin(),2), vec.end() );
+        EXPECT_EQ( vec.end() , past_last );
+        // std::cout  << *past_last << " "<< *std::next(vec.begin(),2)  << std::endl; 
 
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 2 } ) );
-    //     EXPECT_EQ( vec.size() , 2 );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 2 } ) );
+        EXPECT_EQ( vec.size() , 2 );
 
-    //     // removing the entire vector.
-    //     vec = { 1, 2, 3, 4, 5 };
-    //     past_last = vec.erase( vec.begin(), vec.end() );
-    //     EXPECT_EQ( vec.end() , past_last );
-    //     EXPECT_TRUE( vec.empty() );
-    // }
+        // removing the entire vector.
+        vec = { 1, 2, 3, 4, 5 };
+        past_last = vec.erase( vec.begin(), vec.end() );
+        EXPECT_EQ( vec.end() , past_last );
+        EXPECT_TRUE( vec.empty() );
+    }
 
 
-    // {
-    //     BEGIN_TEST(tm, "ErasePos","vec.erase(pos)");
-    //     // Initial vector.
-    //     which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
+    {
+        BEGIN_TEST(tm, "ErasePos","vec.erase(pos)");
+        // Initial vector.
+        which_lib::vector<int> vec { 1, 2, 3, 4, 5 };
 
-    //     // removing a single element.
-    //     vec = { 1, 2, 3, 4, 5 };
-    //     auto past_last = vec.erase( vec.begin() );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 2, 3, 4, 5 } ) );
-    //     EXPECT_EQ( vec.begin() , past_last );
-    //     EXPECT_EQ( vec.size() , 4 );
+        // removing a single element.
+        vec = { 1, 2, 3, 4, 5 };
+        auto past_last = vec.erase( vec.begin() );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 2, 3, 4, 5 } ) );
+        EXPECT_EQ( vec.begin() , past_last );
+        EXPECT_EQ( vec.size() , 4 );
 
-    //     // removing a single element in the middle.
-    //     vec = { 1, 2, 3, 4, 5 };
-    //     past_last = vec.erase( std::next(vec.begin(),2) );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 2, 4, 5 } ) );
-    //     EXPECT_EQ( std::next(vec.begin(),2) , past_last );
-    //     EXPECT_EQ( vec.size() , 4 );
+        // removing a single element in the middle.
+        vec = { 1, 2, 3, 4, 5 };
+        past_last = vec.erase( std::next(vec.begin(),2) );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 2, 4, 5 } ) );
+        EXPECT_EQ( std::next(vec.begin(),2) , past_last );
+        EXPECT_EQ( vec.size() , 4 );
 
-    //     // removing a single element at the end.
-    //     vec = { 1, 2, 3, 4, 5 };
-    //     past_last = vec.erase( std::next(vec.begin(),vec.size()-1 ) );
-    //     EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 2, 3, 4 } ) );
-    //     EXPECT_EQ( vec.end() , past_last );
-    //     EXPECT_EQ( vec.size() , 4 );
-    // }
+        // removing a single element at the end.
+        vec = { 1, 2, 3, 4, 5 };
+        past_last = vec.erase( std::next(vec.begin(),vec.size()-1 ) );
+        EXPECT_EQ( vec , ( which_lib::vector<int>{ 1, 2, 3, 4 } ) );
+        EXPECT_EQ( vec.end() , past_last );
+        EXPECT_EQ( vec.size() , 4 );
+    }
 
     tm.summary();
     std::cout << "\n\n";
